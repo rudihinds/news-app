@@ -1,2 +1,0 @@
-class UserSourcesController < ApplicationController
-end
