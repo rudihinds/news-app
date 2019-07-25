@@ -13,16 +13,8 @@ class Article < ApplicationRecord
       article["published_at"] = article.delete("publishedAt")
     end
     
-    errors = []
-
     articles.each do |article|
       newArticle = Article.find_or_create_by(article)
-
-      if !newArticle.valid?
-        article['errors'] = newArticle.errors.full_messages
-        errors << article
-      end
-    end
 
     articles
 
