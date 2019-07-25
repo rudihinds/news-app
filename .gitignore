@@ -24,3 +24,6 @@
 /config/API_KEYS.rb
 
 
+
+# Ignore application configuration
+/config/application.yml

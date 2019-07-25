@@ -47,3 +47,7 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem "active_model_serializers", "~> 0.10.10"
 
 gem "strip_attributes"
+
+gem 'figaro'
+
+gem 'rest-client'

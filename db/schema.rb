@@ -21,8 +21,8 @@ ActiveRecord::Schema.define(version: 2019_07_25_091217) do
     t.string "title"
     t.string "description"
     t.string "url"
-    t.string "urlToImage"
-    t.datetime "publishedAt"
+    t.string "url_to_image"
+    t.datetime "published_at"
     t.string "content"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -30,6 +30,7 @@ ActiveRecord::Schema.define(version: 2019_07_25_091217) do
   end
 
   create_table "sources", force: :cascade do |t|
+    t.string "api_id"
     t.string "name"
     t.string "description"
     t.string "url"
