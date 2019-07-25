@@ -51,3 +51,5 @@ gem "strip_attributes"
 gem 'figaro'
 
 gem 'rest-client'
+
+gem "jwt", "~> 2.2"
