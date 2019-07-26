@@ -13,11 +13,10 @@ class Article < ApplicationRecord
       article["published_at"] = article.delete("publishedAt")
     end
     
-    articles.each do |article|
-      newArticle = Article.find_or_create_by(article)
+    articles.each{|article| newArticle = Article.find_or_create_by(article)}
 
     Article.select{|article| sources.includes(article.source.api_id) }.order(published_at: :desc)
-
+    
   end
 
 end
