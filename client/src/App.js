@@ -1,10 +1,11 @@
-import React from 'react';
-import './App.css';
-import { BrowserRouter, Route, Link } from 'react-router-dom';
-import Modal from 'react-modal';
-import LoginForm from './components/LoginForm'
-import SignUpForm from './components/SignUpForm'
+import React from 'react'
+import HeadlineContainer from './containers/HeadlinesContainer'
 import Navbar from './components/Navbar'
+import API from './adapters/API'
+import { BrowserRouter, Route } from 'react-router-dom';
+import Modal from 'react-modal';
+import Login from './components/Login'
+import SignUpForm from './components/SignUpForm'
 
 const customStyles = {
   content : {
@@ -19,27 +20,33 @@ const customStyles = {
 
 Modal.setAppElement('#root')
 
+class App extends React.Component{
 
-class App extends React.Component {
   state = {
-    userId: undefined,
+    latestHeadlines: [],
     showModal: true,
     modalLogin: false
   }
 
-  toggleLogin = () => this.setState({showModal: !this.state.showModal});
+  componentDidMount(){
+    API.getArticles().then(console.log)
+  }
 
-  render() {
-    return (
-      <div className="App">
-        <Navbar />
-        <BrowserRouter>
-          
-          <Route exact path="/" component={Navbar} />
-        
+  toggleModal = () => this.setState({showModal: !this.state.showModal});
+
+  render(){
+  return (
+    <div>
+      <Navbar />
+      <h1>The App component</h1>
+      <BrowserRouter>
+        <Route exact path="/" component={() => <HeadlineContainer />} />
+        <Route exact path="/login" component={() => <Login />} />
+        <Route exact path="/signup" component={() => <SignUpForm />} />
+
         <Modal
           isOpen={this.state.showModal && this.state.userId === undefined}
-          onRequestClose={this.toggleLogin}
+          onRequestClose={this.toggleModal}
           style={customStyles}
           contentLabel="Login or Sign up"
           shouldCloseOnOverlayClick={true}
@@ -49,9 +56,10 @@ class App extends React.Component {
             <Route exact path="/signup" component={() => <SignUpForm />} />
             <Route exact path="/login" component={() => <LoginForm />} />
         </Modal>
-        </BrowserRouter>
-      </div>
-    );
+
+      </BrowserRouter>
+    </div>
+  )
   }
 }
 
