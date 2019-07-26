@@ -13,6 +13,9 @@ Rails.application.routes.draw do
         resources :sources, only: [:index]
         resources :user_sources, only: [:index, :create, :delete]
         resources :user_articles, only: [:index, :create, :delete]
+        post '/login', to: 'auth#create'
+        get '/validate', to: 'auth#validate'
     end
-end
+  end
+
 end

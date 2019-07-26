@@ -1,14 +1,18 @@
-const apiEndpoint = 'http://localhost:3000'
-const articlesURL = `${apiEndpoint}/articles`
-const sourcesURL = `${apiEndpoint}/sources`
-const usersURL = `${apiEndpoint}/users`
+const apiEndpoint = 'http://localhost:3000/api/v1'
+const articlesUrl = `${apiEndpoint}/articles`
+const sourcesUrl = `${apiEndpoint}/sources`
+const usersUrl = `${apiEndpoint}/users`
+const loginUrl = `${apiEndpoint}/login`
+const validateUrl = `${apiEndpoint}/validate`
 
 const jsonify = res => {
+  return res.json()
   if (res.ok)
-      return res.json()
+    return res.json()
   else
-      throw new Error(res.json())
+      throw new Error(res.json())     
 }
+
 const handleServerError = response => console.error(response)
 
 const constructHeaders = (moreHeaders = {}) => (
@@ -19,21 +23,21 @@ const constructHeaders = (moreHeaders = {}) => (
 )
 
 const getArticles = () => {
-  return fetch(articlesURL, { headers: constructHeaders() })
+  return fetch(articlesUrl, { headers: constructHeaders() })
     .then(resp => resp.json)
 }
 
 const getSources = () => {
-  return fetch(sourcesURL, { headers: constructHeaders() })
+  return fetch(sourcesUrl, { headers: constructHeaders() })
     .then(resp => resp.json)
 }
 
 const getUsers = () => {
-  return fetch(usersURL, { headers: constructHeaders() })
+  return fetch(usersUrl, { headers: constructHeaders() })
     .then(resp => resp.json)
 }
 
-const signUp = (user) => fetch(signupUrl, {
+const signUp = (user) => fetch(usersUrl, {
   method: 'POST',
   headers: {
       'Content-Type': 'application/json'
@@ -41,8 +45,12 @@ const signUp = (user) => fetch(signupUrl, {
   body: JSON.stringify({ user })
 }).then(jsonify)
   .then(data => {
+    if (data.errors) {
+      return {errors: data.errors}
+    } else {
       localStorage.setItem('token', data.token)
-      return data.user
+      return {user: data.user}
+    }
   })
   .catch(handleServerError)
 
@@ -53,7 +61,16 @@ const logIn = (user) => fetch(loginUrl, {
       'Content-Type': 'application/json'
   },
   body: JSON.stringify({ user })
-}).then(jsonify)
+  }).then(jsonify)
+  .then(data => {
+    if (data.errors) {
+      return {errors: data.errors}
+    } else {
+      localStorage.setItem('token', data.token)
+      return data.user
+    }
+  })
+  .catch(handleServerError)
 
 const validateUser = () => {
   if (!localStorage.getItem('token')) return Promise.resolve({ error: 'no token' })
