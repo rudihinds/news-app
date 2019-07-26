@@ -32,10 +32,10 @@ class App extends React.Component {
   render() {
     return (
       <div className="App">
+        <Navbar />
         <BrowserRouter>
-          <Navbar />
-          {/* <Route exact path="/" component={() => <Home />} /> */}
           
+          <Route exact path="/" component={Navbar} />
         
         <Modal
           isOpen={this.state.showModal && this.state.userId === undefined}
