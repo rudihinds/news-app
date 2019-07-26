@@ -3,7 +3,7 @@ class Article < ApplicationRecord
   
   validates :url, :published_at, presence: true
 
-  def self.getTopHeadlines(sources = Source.all.map{|source| source.api_id})
+  def self.get_top_headlines(sources = Source.all.map{|source| source.api_id})
     
     articles = JSON.parse(RestClient.get("https://newsapi.org/v2/top-headlines?sources=#{sources.join(',')}&apiKey=#{ENV["API_KEY"]}"))['articles']
     
@@ -16,7 +16,7 @@ class Article < ApplicationRecord
     articles.each do |article|
       newArticle = Article.find_or_create_by(article)
 
-    articles
+    Article.select{|article| sources.includes(article.source.api_id) }.order(published_at: :desc)
 
   end
 
