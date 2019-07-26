@@ -3,6 +3,9 @@ import React from 'react'
 import HeadlineContainer from './containers/HeadlinesContainer'
 import Navbar from './components/Navbar'
 import API from './adapters/API'
+import { BrowserRouter, Route } from 'react-router-dom';
+import Login from './components/Login'
+import SignUpForm from './components/SignUpForm'
 
 class App extends React.Component{
 
@@ -20,6 +23,11 @@ class App extends React.Component{
       <Navbar />
       <h1>The App component</h1>
       <HeadlineContainer />
+      <BrowserRouter>
+        <Route exact path="/" component={() => <Login />} />
+        <Route exact path="/login" component={() => <Login />} />
+        <Route exact path="/signup" component={() => <SignUpForm />} />
+      </BrowserRouter>
 
     </div>
   )
