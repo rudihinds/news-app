@@ -1,5 +1,6 @@
 import React from 'react'
 import API from '../adapters/API'
+import { Link } from 'react-router-dom';
 
 class SignUpForm extends React.Component {
   state = {
@@ -77,6 +78,8 @@ class SignUpForm extends React.Component {
         <div>
           <button type='submit'>Submit</button>
         </div>
+        <hr/>
+        <p>If you already have an account, click <Link to="/login" >here</Link> to login.</p>
       </form>
     )
   }
