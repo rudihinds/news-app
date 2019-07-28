@@ -1,6 +1,5 @@
 import React from 'react'
 import API from '../adapters/API'
-import { Link } from 'react-router-dom';
 
 class SignUpForm extends React.Component {
   state = {
@@ -30,10 +29,7 @@ class SignUpForm extends React.Component {
     if (errors.length !== 0) {
       this.setState({ errors })
     } else {
-      console.log(this.state.user)
       API.signUp(this.state.user).then(data => {
-        console.log('returned data: ',data)
-        console.log('returned errors: ',data.errors)
         if (data.errors) this.setState({errors: data.errors})
         if (data.user) this.setState({
           user: {
@@ -52,6 +48,7 @@ class SignUpForm extends React.Component {
 
   render() {
     return (
+      <div>
       <form onSubmit={this.handleSubmit}>
         <h1>Sign Up</h1>
         {this.state.errors.map((error, i)=> <p key={`error${i}`} style={{color: 'red'}}>{error}</p>)}
@@ -78,9 +75,10 @@ class SignUpForm extends React.Component {
         <div>
           <button type='submit'>Submit</button>
         </div>
-        <hr/>
-        <p>If you already have an account, click <Link to="/login" >here</Link> to login.</p>
       </form>
+      <hr/>
+      <p onClick={this.props.toggleLogin}>If you already have an account, click here to login.</p>
+      </div>
     )
   }
 }

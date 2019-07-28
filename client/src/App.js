@@ -4,7 +4,7 @@ import Navbar from './components/Navbar'
 import API from './adapters/API'
 import { BrowserRouter, Route } from 'react-router-dom';
 import Modal from 'react-modal';
-import Login from './components/Login'
+import LoginForm from './components/LoginForm'
 import SignUpForm from './components/SignUpForm'
 
 const customStyles = {
@@ -33,6 +33,7 @@ class App extends React.Component{
   }
 
   toggleModal = () => this.setState({showModal: !this.state.showModal});
+  toggleLogin = () => this.setState({modalLogin: !this.state.modalLogin});
 
   render(){
   return (
@@ -41,7 +42,7 @@ class App extends React.Component{
       <h1>The App component</h1>
       <BrowserRouter>
         <Route exact path="/" component={() => <HeadlineContainer />} />
-        <Route exact path="/login" component={() => <Login />} />
+        <Route exact path="/login" component={() => <LoginForm />} />
         <Route exact path="/signup" component={() => <SignUpForm />} />
 
         <Modal
@@ -52,9 +53,7 @@ class App extends React.Component{
           shouldCloseOnOverlayClick={true}
         >
           <p>Sign up for an account to save your preferences</p>
-            <Route exact path="/" component={() => <SignUpForm />} />
-            <Route exact path="/signup" component={() => <SignUpForm />} />
-            <Route exact path="/login" component={() => <LoginForm />} />
+            {this.state.modalLogin ? <SignUpForm toggleLogin={this.toggleLogin} /> : <LoginForm handleClick={this.toggleLogin} />}
         </Modal>
 
       </BrowserRouter>

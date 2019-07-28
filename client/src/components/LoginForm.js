@@ -1,5 +1,4 @@
 import React from 'react'
-import { Link } from 'react-router-dom';
 
 class SignIn extends React.Component {
   state = {
@@ -52,7 +51,7 @@ class SignIn extends React.Component {
           <button type='submit'>Submit</button>
         </div>
         <hr/>
-        <p>If you do not already have an account, click <Link to="/signup" >here</Link> to sign up.</p>
+        <p onClick={this.props.handleClick}>If you do not already have an account, click here to sign up.</p>
       </form>
     )
   }
