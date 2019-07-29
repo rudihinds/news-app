@@ -2,14 +2,10 @@ import React from 'react'
 import HeadlinesContainer from './containers/HeadlinesContainer'
 import Navbar from './components/Navbar'
 import API from './adapters/API'
-<<<<<<< HEAD
 import MediaCard from './components/MediaCard'
 // import GridExample from './components/GridExample'
 // import 'semantic-ui-css/semantic.min.css'
 import { BrowserRouter, Route } from 'react-router-dom'
-=======
-import { BrowserRouter, Route } from 'react-router-dom';
->>>>>>> e2bf735b01a63ceb7553874112723d3cd5d5dd22
 import Login from './components/Login'
 import SignUpForm from './components/SignUpForm'
 
@@ -58,18 +54,8 @@ class App extends React.Component{
   return (
     
     <div>
-<<<<<<< HEAD
       <HeadlinesContainer latestHeadlines={headlinesToRender} getCuratedHeadlines={this.getCuratedHeadlines}/>
       {/* <MediaCard /> */}
-=======
-      <Navbar />
-      <h1>The App component</h1>
-      <BrowserRouter>
-        <Route exact path="/" component={() => <HeadlineContainer />} />
-        <Route exact path="/login" component={() => <Login />} />
-        <Route exact path="/signup" component={() => <SignUpForm />} />
-      </BrowserRouter>
->>>>>>> e2bf735b01a63ceb7553874112723d3cd5d5dd22
 
     </div>
   )

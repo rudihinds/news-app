@@ -26,3 +26,4 @@
 /config/application.yml
 
 /.vscode
+/node_modules
