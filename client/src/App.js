@@ -9,7 +9,7 @@ import SignUpForm from './components/SignUpForm'
 class App extends React.Component{
 
   state = {
-    user: undefined,
+    userId: undefined,
     latestHeadlines: [],
     topTwentyHeadlines: [],
     userCuratedArticles: [],
@@ -19,7 +19,10 @@ class App extends React.Component{
   }
 
   componentDidMount(){
-    
+    API.validateUser().then(user => {
+      if (!user.error) this.setState({userId: user.id, showModal: false})
+    })
+
     API.getArticles().then(latestHeadlines => this.setState({
 
       latestHeadlines
@@ -46,7 +49,7 @@ class App extends React.Component{
   toggleModal = () => this.setState({showModal: !this.state.showModal});
   toggleLogin = () => this.setState({modalLogin: !this.state.modalLogin});
 
-  setUser = (userId) => this.setState({ user: userId })
+  setUser = (userId) => this.setState({ userId })
 
   render(){
     // const headlinesToRender, depending on the state of boolean showingAll, renders all or curated content
