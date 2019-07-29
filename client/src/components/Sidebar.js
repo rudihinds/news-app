@@ -50,8 +50,14 @@ const useStyles = makeStyles(theme => ({
 
     const getArticleCardData = () => props.latestHeadlines.map(headline => <HeadlineCard headlineData={headline}/> )
 
+    // const getUserSourcesPage
+
     const handleClick = (e) => {
       props.getCuratedHeadlines()
+    }
+
+    const handleClickTwo = (e) => {
+      alert("User Sources Clicked!")
     }
 
   //   const getArticleCardData = (props) => ( 
@@ -92,7 +98,7 @@ const useStyles = makeStyles(theme => ({
               <ListItemText primary={"My Curated Articles"} />
             </ListItem>
 
-            <ListItem button key={"Edit Favourite Sources"}>
+            <ListItem button key={"Edit Favourite Sources"} onClick={(e) => handleClickTwo(e)}>
               <ListItemIcon><MailIcon /></ListItemIcon>
               <ListItemText primary={"Edit Fav Sources"} />
             </ListItem>

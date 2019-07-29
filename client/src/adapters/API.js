@@ -4,7 +4,7 @@ const sourcesUrl = `${apiEndpoint}/sources`
 const usersUrl = `${apiEndpoint}/users`
 const loginUrl = `${apiEndpoint}/login`
 const validateUrl = `${apiEndpoint}/validate`
-const userFavouriteSources = `${apiEndpoint}/user_sources`
+const userSourcesUrl = `${apiEndpoint}/user_sources`
 const userTopArticlesUrl = `${apiEndpoint}/user_articles`
 
 const jsonify = res => {
@@ -41,6 +41,11 @@ const getSources = () => {
 
 const getUsers = () => {
   return fetch(usersUrl, { headers: constructHeaders() })
+    .then(resp => resp.json())
+}
+
+const getUserSources = () => {
+  return fetch(userSourcesUrl, { headers: constructHeaders() })
     .then(resp => resp.json())
 }
 
@@ -102,5 +107,6 @@ export default {
   getUsers,
   getArticles,
   getSources,
-  getUserArticles
+  getUserArticles,
+  getUserSources
 }

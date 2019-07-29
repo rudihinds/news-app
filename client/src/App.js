@@ -1,17 +1,14 @@
 import React from 'react'
 import HeadlinesContainer from './containers/HeadlinesContainer'
-import Navbar from './components/Navbar'
 import API from './adapters/API'
-<<<<<<< HEAD
 import MediaCard from './components/MediaCard'
 // import GridExample from './components/GridExample'
 // import 'semantic-ui-css/semantic.min.css'
 import { BrowserRouter, Route } from 'react-router-dom'
-=======
-import { BrowserRouter, Route } from 'react-router-dom';
->>>>>>> e2bf735b01a63ceb7553874112723d3cd5d5dd22
 import Login from './components/Login'
 import SignUpForm from './components/SignUpForm'
+import Sidebar from './components/Sidebar';
+import UserSources from './components/UserSources';
 
 class App extends React.Component{
 
@@ -19,22 +16,20 @@ class App extends React.Component{
     latestHeadlines: [],
     topTwentyHeadlines: [],
     userCuratedArticles: [],
-    showingAll: true
+    showingAll: true,
+    userSources: []
   }
 
   componentDidMount(){
     
-    API.getArticles().then(latestHeadlines => this.setState({
+    API.getArticles()
+      .then(latestHeadlines => this.setState({ latestHeadlines }))
+    API.getUserSources()
+      .then(userSources => this.setState({ userSources }))
+      // .then(userSources => console.log(userSources))
 
-      latestHeadlines
-
-      // topTwentyHeadlines: this.state.latestHeadlines.slice(0,20)
-      
-
-    })) 
-    
-      // .then(this.getTwentyHeadlines())
   }
+    
 
   getTwentyHeadlines = () => this.state.latestHeadlines.slice(0,20)
 
@@ -48,32 +43,42 @@ class App extends React.Component{
   }
 
   render(){
-    // const headlinesToRender, depending on the state of boolean showingAll, renders all or curated content
+    
     let headlinesToRender;
+    let userSources = this.state.userSources
     let twentyHeadlines = this.getTwentyHeadlines()
     let userCuratedArticles = this.state.userCuratedArticles
     this.state.showingAll ? headlinesToRender = twentyHeadlines : headlinesToRender = userCuratedArticles
-    // const userCuratedHeadlines = this.getCuratedHeadlines()
     
   return (
     
     <div>
-<<<<<<< HEAD
-      <HeadlinesContainer latestHeadlines={headlinesToRender} getCuratedHeadlines={this.getCuratedHeadlines}/>
-      {/* <MediaCard /> */}
-=======
-      <Navbar />
-      <h1>The App component</h1>
-      <BrowserRouter>
-        <Route exact path="/" component={() => <HeadlineContainer />} />
-        <Route exact path="/login" component={() => <Login />} />
-        <Route exact path="/signup" component={() => <SignUpForm />} />
-      </BrowserRouter>
->>>>>>> e2bf735b01a63ceb7553874112723d3cd5d5dd22
-
+     <BrowserRouter>
+       <Route exact path='/' component={() => <Sidebar latestHeadlines={headlinesToRender} getCuratedHeadlines={this.getCuratedHeadlines}/>} />
+       <Route exact path='/user-sources' component={() => <UserSources userSources={userSources}/>} />
+       {/* <Route exact path='/login' component={() => <LoginForm />} />
+       <Route exact path='/signup' component={() => <SignUpForm />} /> */}
+     </BrowserRouter>
     </div>
   )
   }
 }
+
+
+/* <div>
+     <Navbar />
+     <h1>The App component</h1>
+     <BrowserRouter>
+       <Route exact path=“/” component={() => <HeadlinesContainer latestHeadlines={headlinesToRender} getCuratedHeadlines={this.getCuratedHeadlines}/>} />
+       <Route exact path=“/login” component={() => <LoginForm />} />
+       <Route exact path=“/signup” component={() => <SignUpForm />} />
+     </BrowserRouter>
+</div> */
+
+  // <div>
+    //   <HeadlinesContainer latestHeadlines={headlinesToRender} getCuratedHeadlines={this.getCuratedHeadlines}/>
+    //   {/* <MediaCard /> */}
+
+    // </div>
 
 export default App;
