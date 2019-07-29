@@ -47,7 +47,7 @@ const useStyles = makeStyles(theme => ({
 
     const classes = useStyles();
 
-    const getArticleCardData = () => props.latestHeadlines.map(headline => <HeadlineCard headlineData={headline}/> )
+    const getArticleCardData = () => props.latestHeadlines.map(headline => <HeadlineCard key={headline.id} headlineData={headline}/> )
 
     const handleClick = (e) => {
       props.getCuratedHeadlines()
