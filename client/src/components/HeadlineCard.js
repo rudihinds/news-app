@@ -7,6 +7,7 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import API from '../adapters/API'
 
 const useStyles = makeStyles({
   card: {
@@ -17,8 +18,19 @@ const useStyles = makeStyles({
   },
 });
 
-const HeadlineCard = ({ title, description, url, source, url_to_image }) => {
-    const classes = useStyles();
+const HeadlineCard = ({ id, title, description, url, source, url_to_image, savedArticles, toggleSavedArticle}) => {
+    
+  const classes = useStyles();
+
+  const saveArticle = () => {
+    API.postUserArticle(id)
+      .then(() => toggleSavedArticle(id))
+  }
+
+  const unsaveArticle = () => {
+    API.deleteUserArticle(id)
+    .then(() => toggleSavedArticle(id))
+  }
 
   return (
     <Card className={classes.card}>
@@ -40,8 +52,8 @@ const HeadlineCard = ({ title, description, url, source, url_to_image }) => {
         </CardContent>
       </CardActionArea>
       <CardActions>
-        <Button size="small" color="primary">
-          Share
+        <Button size="small" color="primary" onClick={savedArticles.includes(id) ? unsaveArticle : saveArticle}>
+          {savedArticles.includes(id) ? 'Saved' : 'Save'}
         </Button>
         <Button size="small" color="primary" href={url}>
           Read More at {source.name}

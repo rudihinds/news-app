@@ -3,7 +3,7 @@ import HeadlineCard from '../components/HeadlineCard'
 import { makeStyles } from '@material-ui/core/styles';
 
 
-const HeadlinesContainer = ({headlines}) => {
+const HeadlinesContainer = ({headlines, savedArticles, toggleSavedArticle}) => {
   const useStyles = makeStyles(theme => ({
     toolbar: theme.mixins.toolbar,
     content: {
@@ -18,7 +18,7 @@ const HeadlinesContainer = ({headlines}) => {
   return (
     <main className={classes.content}>
       <div className={classes.toolbar} />
-          {headlines.map(headline => <HeadlineCard key={headline.id} {...headline}/>)}
+          {headlines.map(headline => <HeadlineCard key={headline.id} {...headline} savedArticles={savedArticles} toggleSavedArticle={toggleSavedArticle}/>)}
     </main>
   )
 }

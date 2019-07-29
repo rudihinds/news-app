@@ -5,7 +5,7 @@ const usersUrl = `${apiEndpoint}/users`
 const loginUrl = `${apiEndpoint}/login`
 const validateUrl = `${apiEndpoint}/validate`
 const userSourcesUrl = `${apiEndpoint}/user_sources`
-const userTopArticlesUrl = `${apiEndpoint}/user_articles`
+const userArticlesUrl = `${apiEndpoint}/user_articles`
 
 const jsonify = res => {
   return res.json()
@@ -28,12 +28,12 @@ const constructHeaders = (moreHeaders = {}) => (
 )
 
 const getUserArticles = () => {
-  return fetch(userTopArticlesUrl, { headers: constructHeaders() })
+  return fetch(articlesUrl, { headers: constructHeaders() })
     .then(resp => resp.json())
 }
 
 const getArticles = () => {
-  return fetch(articlesUrl, { headers: constructHeaders() })
+  return fetch(`${articlesUrl}?all=true`, { headers: constructHeaders() })
     .then(resp => resp.json())
 }
 
@@ -102,6 +102,38 @@ const validateUser = () => {
 
 const clearToken = () => localStorage.removeItem('token')
 
+const postUserArticle = (article_id) => fetch(userArticlesUrl, {
+  method: 'POST',
+  headers: constructHeaders({'Content-Type': 'application/json'}),
+  body: JSON.stringify({ article_id })
+}).then(jsonify)
+  .then(data => {
+    if (data.errors) {
+      return {errors: data.errors}
+    } else {
+      return {user_article: data}
+    }
+  })
+  .catch(handleServerError)
+
+const deleteUserArticle = (article_id) => fetch(`${userArticlesUrl}/${article_id}`, {
+  method: 'DELETE',
+  headers: constructHeaders({'Content-Type': 'application/json'})
+}).then(jsonify).then(console.log)
+
+const getUserSavedArticles = () => fetch(userArticlesUrl, {
+    headers: constructHeaders()
+  }).then(jsonify)
+    .then(data => {
+      if (data.errors) {
+        return {errors: data.errors}
+      } else {
+        return { savedArticles: data.user_articles }
+      }
+    })
+    .catch(handleServerError)
+
+
 export default {
   signUp,
   logIn,
@@ -111,5 +143,8 @@ export default {
   getArticles,
   getSources,
   getUserArticles,
-  getUserSources
+  getUserSources,
+  postUserArticle,
+  deleteUserArticle,
+  getUserSavedArticles
 }

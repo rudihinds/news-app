@@ -34,7 +34,6 @@ class SignIn extends React.Component {
           if (resp.errors) {
             this.setState({ errors: resp.errors })
           } else {
-            console.log(resp.user)
             this.props.setUser(resp.user.id)
             this.props.toggleModal()
           }

@@ -13,7 +13,8 @@ class App extends React.Component{
 
   state = {
     userId: undefined,
-    latestHeadlines: [],
+    headlines: [],
+    savedArticles: [],
     topTwentyHeadlines: [],
     userCuratedArticles: [],
     showingAll: true,
@@ -24,19 +25,24 @@ class App extends React.Component{
 
   componentDidMount(){
     API.validateUser().then(user => {
-      if (!user.error) this.setState({userId: user.id, showModal: false})
+      if (!user.error && user.id) {
+        this.setState({userId: user.id, showModal: false})
+
+      API.getUserSources()
+        .then(userSources => this.setState({ userSources }))
+  
+      API.getUserSavedArticles()
+        .then(savedArticles => this.setState(savedArticles))
+      }
     })
 
     API.getArticles()
-      .then(latestHeadlines => this.setState({ latestHeadlines }))
-    API.getUserSources()
-      .then(userSources => this.setState({ userSources }))
-      // .then(userSources => console.log(userSources))
+      .then(headlines => this.setState({ headlines }))
 
   }
     
 
-  getTwentyHeadlines = () => this.state.latestHeadlines.slice(0,20)
+  getTwentyHeadlines = () => this.state.headlines.slice(0,20)
 
   getCuratedHeadlines = () => {
     API.getUserArticles()
@@ -52,6 +58,16 @@ class App extends React.Component{
 
   setUser = (userId) => this.setState({ userId })
 
+  // headlines = () => this.state.headlines.map(article => ({...article, saved: this.state.savedArticles.includes(article.id)}))
+
+  toggleSavedArticle = id => {
+    if (this.state.savedArticles.includes(id)) {
+      this.setState({savedArticles: this.state.savedArticles.filter(savedId => savedId !== id)})
+    } else {
+      this.setState({savedArticles: [...this.state.savedArticles, id]})
+    }
+  }
+
   render(){
     
     let headlinesToRender;
@@ -59,7 +75,7 @@ class App extends React.Component{
     let twentyHeadlines = this.getTwentyHeadlines()
     let userCuratedArticles = this.state.userCuratedArticles
     this.state.showingAll ? headlinesToRender = twentyHeadlines : headlinesToRender = userCuratedArticles
-    
+
   return (
     
     <div>
@@ -79,7 +95,7 @@ class App extends React.Component{
       </div>
       <Navbar showLogin={!this.state.userId} handleClick={this.toggleModal} />
       
-        <Route exact path='/' component={() => <Sidebar latestHeadlines={headlinesToRender} getCuratedHeadlines={this.getCuratedHeadlines}/>} />
+        <Route exact path='/' component={() => <Sidebar toggleSavedArticle={this.toggleSavedArticle} headlines={this.state.headlines} savedArticles={this.state.savedArticles} getCuratedHeadlines={this.getCuratedHeadlines}/>} />
         <Route exact path='/user-sources' component={() => <UserSources userSources={userSources}/>} />
       </BrowserRouter>
     </div>

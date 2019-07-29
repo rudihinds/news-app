@@ -32,7 +32,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-  export default function Sidebar({getCuratedHeadlines, headlines}){
+  export default function Sidebar({getCuratedHeadlines, headlines, savedArticles, toggleSavedArticle}){
 
     const classes = useStyles();
 
@@ -79,7 +79,7 @@ const useStyles = makeStyles(theme => ({
       
         </List>
       </Drawer>
-      <HeadlinesContainer headlines={headlines}/>
+      <HeadlinesContainer headlines={headlines} savedArticles={savedArticles} toggleSavedArticle={toggleSavedArticle}/>
     </div>
   );
 }
