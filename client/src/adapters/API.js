@@ -15,7 +15,10 @@ const jsonify = res => {
       throw new Error(res.json())     
 }
 
-const handleServerError = response => console.error(response)
+const handleServerError = response => {
+  console.log('handle error: ', response)
+  return {errors: response.errors}
+}
 
 const constructHeaders = (moreHeaders = {}) => (
   {
@@ -76,10 +79,10 @@ const logIn = (user) => fetch(loginUrl, {
   }).then(jsonify)
   .then(data => {
     if (data.errors) {
-      return {errors: data.errors}
+      console.log('errors: ',data.errors)
     } else {
       localStorage.setItem('token', data.token)
-      return data.user
+      return {user: data.user}
     }
   })
   .catch(handleServerError)

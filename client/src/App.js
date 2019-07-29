@@ -1,11 +1,9 @@
 import React from 'react'
 import HeadlinesContainer from './containers/HeadlinesContainer'
 import API from './adapters/API'
-import MediaCard from './components/MediaCard'
-// import GridExample from './components/GridExample'
-// import 'semantic-ui-css/semantic.min.css'
 import { BrowserRouter, Route } from 'react-router-dom'
-import Login from './components/Login'
+import Dialog from '@material-ui/core/Dialog';
+import LoginForm from './components/LoginForm'
 import SignUpForm from './components/SignUpForm'
 import Sidebar from './components/Sidebar';
 import UserSources from './components/UserSources';
@@ -13,15 +11,21 @@ import UserSources from './components/UserSources';
 class App extends React.Component{
 
   state = {
+    userId: undefined,
     latestHeadlines: [],
     topTwentyHeadlines: [],
     userCuratedArticles: [],
     showingAll: true,
-    userSources: []
+    userSources: [],
+    showModal: true,
+    modalLogin: false
   }
 
   componentDidMount(){
-    
+    API.validateUser().then(user => {
+      if (!user.error) this.setState({userId: user.id, showModal: false})
+    })
+
     API.getArticles()
       .then(latestHeadlines => this.setState({ latestHeadlines }))
     API.getUserSources()
@@ -42,6 +46,11 @@ class App extends React.Component{
       })
   }
 
+  toggleModal = () => this.setState({showModal: !this.state.showModal});
+  toggleLogin = () => this.setState({modalLogin: !this.state.modalLogin});
+
+  setUser = (userId) => this.setState({ userId })
+
   render(){
     
     let headlinesToRender;
@@ -53,12 +62,24 @@ class App extends React.Component{
   return (
     
     <div>
-     <BrowserRouter>
-       <Route exact path='/' component={() => <Sidebar latestHeadlines={headlinesToRender} getCuratedHeadlines={this.getCuratedHeadlines}/>} />
-       <Route exact path='/user-sources' component={() => <UserSources userSources={userSources}/>} />
-       {/* <Route exact path='/login' component={() => <LoginForm />} />
-       <Route exact path='/signup' component={() => <SignUpForm />} /> */}
-     </BrowserRouter>
+      <div id='modal-to-top' >
+      <Dialog
+          open={this.state.showModal && this.state.userId === undefined}
+          onClose={this.toggleModal}
+        >
+          {this.state.modalLogin ? 
+            <SignUpForm handleClick={this.toggleLogin} toggleModal={this.toggleModal} setUser={this.setUser}/> 
+          : 
+            <LoginForm handleClick={this.toggleLogin} toggleModal={this.toggleModal} setUser={this.setUser}/>
+          }
+      </Dialog>
+      </div>
+      <BrowserRouter>
+        <Route exact path='/' component={() => <Sidebar latestHeadlines={headlinesToRender} getCuratedHeadlines={this.getCuratedHeadlines}/>} />
+        <Route exact path='/user-sources' component={() => <UserSources userSources={userSources}/>} />
+        <Route exact path="/login" component={() => <LoginForm />} />
+        <Route exact path="/signup" component={() => <SignUpForm />} />
+      </BrowserRouter>
     </div>
   )
   }

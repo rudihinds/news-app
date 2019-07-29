@@ -42,8 +42,7 @@ const HeadlineCard = (props) => {
           Share
         </Button>
         <Button size="small" color="primary" href={props.headlineData.url}>
-            <a href={props.headlineData.url}>read more at {props.headlineData.source.name}</a>
-          {/* Read More at {props.headlineData.source.name} */}
+          Read More at {props.headlineData.source.name}
         </Button>
       </CardActions>
     </Card>

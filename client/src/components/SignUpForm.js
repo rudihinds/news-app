@@ -29,10 +29,7 @@ class SignUpForm extends React.Component {
     if (errors.length !== 0) {
       this.setState({ errors })
     } else {
-      console.log(this.state.user)
       API.signUp(this.state.user).then(data => {
-        console.log('returned data: ',data)
-        console.log('returned errors: ',data.errors)
         if (data.errors) this.setState({errors: data.errors})
         if (data.user) this.setState({
           user: {
@@ -51,6 +48,8 @@ class SignUpForm extends React.Component {
 
   render() {
     return (
+      <div style={{padding: '10px'}}>
+      <p>Sign up for an account to save your preferences</p>
       <form onSubmit={this.handleSubmit}>
         <h1>Sign Up</h1>
         {this.state.errors.map((error, i)=> <p key={`error${i}`} style={{color: 'red'}}>{error}</p>)}
@@ -78,6 +77,9 @@ class SignUpForm extends React.Component {
           <button type='submit'>Submit</button>
         </div>
       </form>
+      <hr/>
+      <p onClick={this.props.handleClick}>If you already have an account, click here to login.</p>
+      </div>
     )
   }
 }
