@@ -5,9 +5,9 @@ class Article < ApplicationRecord
 
   default_scope{ order(published_at: :desc) }
 
-  def self.get_top_headlines(sources = Source.all.map{|source| source.api_id})
+  def self.get_top_headlines(sources = Source.all.map{|source| source.api_id}, page = 1)
     
-    articles = JSON.parse(RestClient.get("https://newsapi.org/v2/top-headlines?sources=#{sources.join(',')}&apiKey=e5160b6c2767490d80b97bf5b20fbc1b"))['articles']
+    articles = JSON.parse(RestClient.get("https://newsapi.org/v2/top-headlines?sources=#{sources.join(',')}&page=#{page}&apiKey=#{ENV["API_KEY"]}"))['articles']
     
     articles.each do |article|
       article["source"] = Source.find_by(api_id: article.delete("source")['id'])
@@ -15,9 +15,7 @@ class Article < ApplicationRecord
       article["published_at"] = article.delete("publishedAt")
     end
     
-    articles.each{|article| newArticle = Article.find_or_create_by(article)}
-
-    Article.select{|article| sources.include?(article.source.api_id) }
+    articles.map{|article| Article.find_or_create_by(article)}
     
   end
 

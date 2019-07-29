@@ -2,7 +2,7 @@ class UserSource < ApplicationRecord
   belongs_to :user
   belongs_to :source
 
-
+  validates_uniqueness_of :source, scope: :user
 
   def self.get_my_favourite_sources(user)
     # make a fetch using my favourite sources and return top headlines

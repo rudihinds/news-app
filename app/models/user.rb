@@ -17,7 +17,15 @@ class User < ApplicationRecord
         Article.getTopHeadlines(self.sources.map{|source| source.api_id})
     end
 
+    def headlines_history
+      Article.select{|article| self.get_source_ids.include?(article.source.api_id) }
+    end
+
     def get_user_article_ids
       self.user_articles.map{|ua| ua.article.id}
+    end
+
+    def get_source_ids
+      self.user_sources.map{|us| us.source.id}
     end
 end
