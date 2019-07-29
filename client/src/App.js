@@ -48,17 +48,15 @@ class App extends React.Component{
     API.getUserArticles()
       .then(userCuratedArticles => {
         this.setState({ 
-          userCuratedArticles, 
-          showingAll: false })
-      })
+        userCuratedArticles, 
+        showingAll: false })
+    })
   }
 
   toggleModal = () => this.setState({showModal: !this.state.showModal});
   toggleLogin = () => this.setState({modalLogin: !this.state.modalLogin});
 
-  setUser = (userId) => this.setState({ userId })
-
-  // headlines = () => this.state.headlines.map(article => ({...article, saved: this.state.savedArticles.includes(article.id)}))
+  setUser = (userId) => this.setState({ userId });
 
   toggleSavedArticle = id => {
     if (this.state.savedArticles.includes(id)) {
@@ -66,15 +64,14 @@ class App extends React.Component{
     } else {
       this.setState({savedArticles: [...this.state.savedArticles, id]})
     }
-  }
+  };
 
   render(){
     
-    let headlinesToRender;
     let userSources = this.state.userSources
     let twentyHeadlines = this.getTwentyHeadlines()
     let userCuratedArticles = this.state.userCuratedArticles
-    this.state.showingAll ? headlinesToRender = twentyHeadlines : headlinesToRender = userCuratedArticles
+    // this.state.showingAll ? headlinesToRender = twentyHeadlines : headlinesToRender = userCuratedArticles
 
   return (
     

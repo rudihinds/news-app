@@ -8,11 +8,7 @@ const userSourcesUrl = `${apiEndpoint}/user_sources`
 const userArticlesUrl = `${apiEndpoint}/user_articles`
 
 const jsonify = res => {
-  return res.json()
-  if (res.ok)
-    return res.json()
-  else
-      throw new Error(res.json())     
+  return res.json()     
 }
 
 const handleServerError = response => {
