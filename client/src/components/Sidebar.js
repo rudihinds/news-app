@@ -14,6 +14,7 @@ import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 import Navbar from '../components/Navbar'
 import HeadlineCard from '../components/HeadlineCard'
+import { Link } from 'react-router-dom'
 
 
 
@@ -96,11 +97,12 @@ const useStyles = makeStyles(theme => ({
               <ListItemIcon><MailIcon /></ListItemIcon>
               <ListItemText primary={"My Curated Articles"} />
             </ListItem>
-
+            <Link to='/user-sources'>
             <ListItem button key={"Edit Favourite Sources"} onClick={(e) => handleClickTwo(e)}>
               <ListItemIcon><MailIcon /></ListItemIcon>
               <ListItemText primary={"Edit Fav Sources"} />
             </ListItem>
+            </Link>
       
         </List>
       </Drawer>

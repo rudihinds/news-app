@@ -111,5 +111,7 @@ export default {
   getArticles,
   getSources,
   getUserArticles,
-  getUserSources
+  getUserSources,
+  userSourcesUrl,
+  constructHeaders
 }
