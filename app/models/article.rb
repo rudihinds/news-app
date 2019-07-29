@@ -1,13 +1,13 @@
 class Article < ApplicationRecord
   belongs_to :source
   
-  validates :url, :published_at, presence: true
+  # validates :url, :published_at, presence: true
 
   default_scope{ order(published_at: :desc) }
 
   def self.get_top_headlines(sources = Source.all.map{|source| source.api_id})
     
-    articles = JSON.parse(RestClient.get("https://newsapi.org/v2/top-headlines?sources=#{sources.join(',')}&apiKey=#{ENV["API_KEY"]}"))['articles']
+    articles = JSON.parse(RestClient.get("https://newsapi.org/v2/top-headlines?sources=#{sources.join(',')}&apiKey=e5160b6c2767490d80b97bf5b20fbc1b"))['articles']
     
     articles.each do |article|
       article["source"] = Source.find_by(api_id: article.delete("source")['id'])

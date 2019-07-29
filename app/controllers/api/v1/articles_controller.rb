@@ -4,7 +4,7 @@ class Api::V1::ArticlesController < ApplicationController
     # articles = @current_user ? @current_user.get_top_headlines : Article.get_top_headlines
 
     @top_headlines = Article.get_top_headlines
-    render json: @top_headlines
+    render json: @top_headlines, include: [:source]
   end
 
 

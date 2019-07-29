@@ -4,6 +4,8 @@ const sourcesUrl = `${apiEndpoint}/sources`
 const usersUrl = `${apiEndpoint}/users`
 const loginUrl = `${apiEndpoint}/login`
 const validateUrl = `${apiEndpoint}/validate`
+const userFavouriteSources = `${apiEndpoint}/user_sources`
+const userTopArticlesUrl = `${apiEndpoint}/user_articles`
 
 const jsonify = res => {
   return res.json()
@@ -25,19 +27,24 @@ const constructHeaders = (moreHeaders = {}) => (
   }
 )
 
+const getUserArticles = () => {
+  return fetch(userTopArticlesUrl, { headers: constructHeaders() })
+    .then(resp => resp.json())
+}
+
 const getArticles = () => {
   return fetch(articlesUrl, { headers: constructHeaders() })
-    .then(resp => resp.json)
+    .then(resp => resp.json())
 }
 
 const getSources = () => {
   return fetch(sourcesUrl, { headers: constructHeaders() })
-    .then(resp => resp.json)
+    .then(resp => resp.json())
 }
 
 const getUsers = () => {
   return fetch(usersUrl, { headers: constructHeaders() })
-    .then(resp => resp.json)
+    .then(resp => resp.json())
 }
 
 const signUp = (user) => fetch(usersUrl, {
@@ -97,5 +104,6 @@ export default {
   clearToken,
   getUsers,
   getArticles,
-  getSources
+  getSources,
+  getUserArticles
 }

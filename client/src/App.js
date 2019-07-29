@@ -1,8 +1,9 @@
 import React from 'react'
-import HeadlineContainer from './containers/HeadlinesContainer'
+import HeadlinesContainer from './containers/HeadlinesContainer'
 import Navbar from './components/Navbar'
 import API from './adapters/API'
-import { BrowserRouter, Route } from 'react-router-dom';
+import MediaCard from './components/MediaCard'
+import { BrowserRouter, Route } from 'react-router-dom'
 import Modal from 'react-modal';
 import LoginForm from './components/LoginForm'
 import SignUpForm from './components/SignUpForm'
@@ -25,12 +26,36 @@ class App extends React.Component{
   state = {
     user: undefined,
     latestHeadlines: [],
+    topTwentyHeadlines: [],
+    userCuratedArticles: [],
+    showingAll: true,
     showModal: true,
     modalLogin: false
   }
 
   componentDidMount(){
-    API.getArticles().then(console.log)
+    
+    API.getArticles().then(latestHeadlines => this.setState({
+
+      latestHeadlines
+
+      // topTwentyHeadlines: this.state.latestHeadlines.slice(0,20)
+      
+
+    })) 
+    
+      // .then(this.getTwentyHeadlines())
+  }
+
+  getTwentyHeadlines = () => this.state.latestHeadlines.slice(0,20)
+
+  getCuratedHeadlines = () => {
+    API.getUserArticles()
+      .then(userCuratedArticles => {
+        this.setState({ 
+          userCuratedArticles, 
+          showingAll: false })
+      })
   }
 
   toggleModal = () => this.setState({showModal: !this.state.showModal});
@@ -39,12 +64,20 @@ class App extends React.Component{
   setUser = (userId) => this.setState({ user: userId })
 
   render(){
+    // const headlinesToRender, depending on the state of boolean showingAll, renders all or curated content
+    let headlinesToRender;
+    let twentyHeadlines = this.getTwentyHeadlines()
+    let userCuratedArticles = this.state.userCuratedArticles
+    this.state.showingAll ? headlinesToRender = twentyHeadlines : headlinesToRender = userCuratedArticles
+    // const userCuratedHeadlines = this.getCuratedHeadlines()
+    
   return (
+    
     <div>
       <Navbar />
       <h1>The App component</h1>
       <BrowserRouter>
-        <Route exact path="/" component={() => <HeadlineContainer />} />
+        <Route exact path="/" component={() => <HeadlinesContainer latestHeadlines={headlinesToRender} getCuratedHeadlines={this.getCuratedHeadlines}/>} />
         <Route exact path="/login" component={() => <LoginForm />} />
         <Route exact path="/signup" component={() => <SignUpForm />} />
 
