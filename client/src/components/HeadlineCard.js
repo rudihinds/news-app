@@ -7,6 +7,7 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import API from '../adapters/API'
 
 const useStyles = makeStyles({
   card: {
@@ -17,32 +18,45 @@ const useStyles = makeStyles({
   },
 });
 
-const HeadlineCard = (props) => {
-    const classes = useStyles();
+const HeadlineCard = ({ id, title, description, url, source, url_to_image, savedArticles, toggleSavedArticle}) => {
+    
+  const classes = useStyles();
+
+  const saveArticle = () => {
+    API.postUserArticle(id)
+      .then(() => toggleSavedArticle(id))
+  }
+
+  const unsaveArticle = () => {
+    API.deleteUserArticle(id)
+    .then(() => toggleSavedArticle(id))
+  }
 
   return (
     <Card className={classes.card}>
         <CardActionArea>
+        {url_to_image &&
         <CardMedia
           className={classes.media}
-          image={props.headlineData.url_to_image}
-          title={props.headlineData.title}
-        />
+          image={url_to_image}
+          src={url_to_image}
+          title={title}
+        />}
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2">
-          {props.headlineData.title}
+          {title}
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
-          {props.headlineData.description}
+          {description}
           </Typography>
         </CardContent>
       </CardActionArea>
       <CardActions>
-        <Button size="small" color="primary">
-          Share
+        <Button size="small" color="primary" onClick={savedArticles.includes(id) ? unsaveArticle : saveArticle}>
+          {savedArticles.includes(id) ? 'Saved' : 'Save'}
         </Button>
-        <Button size="small" color="primary" href={props.headlineData.url}>
-          Read More at {props.headlineData.source.name}
+        <Button size="small" color="primary" href={url}>
+          Read More at {source.name}
         </Button>
       </CardActions>
     </Card>

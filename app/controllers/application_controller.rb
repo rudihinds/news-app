@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::API
   before_action :set_current_user
-#   before_action :authorize
+  before_action :authorize
 
   def issue_token(payload)
       JWT.encode(payload, ENV['RAILS_SECRET'])

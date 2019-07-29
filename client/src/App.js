@@ -1,5 +1,4 @@
 import React from 'react'
-import HeadlinesContainer from './containers/HeadlinesContainer'
 import API from './adapters/API'
 import { BrowserRouter, Route } from 'react-router-dom'
 import Dialog from '@material-ui/core/Dialog';
@@ -7,12 +6,15 @@ import LoginForm from './components/LoginForm'
 import SignUpForm from './components/SignUpForm'
 import Sidebar from './components/Sidebar';
 import UserSources from './components/UserSources';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import Navbar from './components/Navbar'
 
 class App extends React.Component{
 
   state = {
     userId: undefined,
-    latestHeadlines: [],
+    headlines: [],
+    savedArticles: [],
     topTwentyHeadlines: [],
     userCuratedArticles: [],
     showingAll: true,
@@ -24,11 +26,19 @@ class App extends React.Component{
 
   componentDidMount(){
     API.validateUser().then(user => {
-      if (!user.error) this.setState({userId: user.id, showModal: false})
+      if (!user.error && user.id) {
+        this.setState({userId: user.id, showModal: false})
+
+      API.getUserSources()
+        .then(userSources => this.setState({ userSources }))
+  
+      API.getUserSavedArticles()
+        .then(savedArticles => this.setState(savedArticles))
+      }
     })
 
     API.getArticles()
-      .then(latestHeadlines => this.setState({ latestHeadlines }))
+      .then(headlines => this.setState({ headlines }))
     API.getSources()
       .then(allSources => this.setState({ allSources }))
     API.getUserSources()
@@ -50,7 +60,7 @@ class App extends React.Component{
 
   addSourceIdToUserSources = sourceId => this.setState({userSources: [...this.state.userSources, sourceId]})
 
-  getTwentyHeadlines = () => this.state.latestHeadlines.slice(0,20)
+  getTwentyHeadlines = () => this.state.headlines.slice(0,20)
 
   deleteUserSource = (sourceId) => {
     this.setState({
@@ -68,9 +78,9 @@ class App extends React.Component{
     API.getUserArticles()
       .then(userCuratedArticles => {
         this.setState({ 
-          userCuratedArticles, 
-          showingAll: false })
-      })
+        userCuratedArticles, 
+        showingAll: false })
+    })
   }
 
 
@@ -78,7 +88,15 @@ class App extends React.Component{
   toggleModal = () => this.setState({showModal: !this.state.showModal});
   toggleLogin = () => this.setState({modalLogin: !this.state.modalLogin});
 
-  setUser = (userId) => this.setState({ userId })
+  setUser = (userId) => this.setState({ userId });
+
+  toggleSavedArticle = id => {
+    if (this.state.savedArticles.includes(id)) {
+      this.setState({savedArticles: this.state.savedArticles.filter(savedId => savedId !== id)})
+    } else {
+      this.setState({savedArticles: [...this.state.savedArticles, id]})
+    }
+  };
 
   render(){
     // console.log(API.userSourcesUrl)
@@ -88,30 +106,29 @@ class App extends React.Component{
     let allSources = this.allSourcesToRender()
     let twentyHeadlines = this.getTwentyHeadlines()
     let userCuratedArticles = this.state.userCuratedArticles
-    this.state.showingAll ? headlinesToRender = twentyHeadlines : headlinesToRender = userCuratedArticles
-    
+    // this.state.showingAll ? headlinesToRender = twentyHeadlines : headlinesToRender = userCuratedArticles
+
   return (
     
     <div>
-
-      <div id='modal-to-top' >
-      <Dialog
-          open={this.state.showModal && this.state.userId === undefined}
-          onClose={this.toggleModal}
-        >
-          {this.state.modalLogin ? 
-            <SignUpForm handleClick={this.toggleLogin} toggleModal={this.toggleModal} setUser={this.setUser}/> 
-          : 
-            <LoginForm handleClick={this.toggleLogin} toggleModal={this.toggleModal} setUser={this.setUser}/>
-          }
-      </Dialog>
-      </div>
-
+      <CssBaseline />
       <BrowserRouter>
+      <div id='modal-to-top' >
+        <Dialog
+            open={this.state.showModal && this.state.userId === undefined}
+            onClose={this.toggleModal}
+          >
+            {this.state.modalLogin ? 
+              <SignUpForm handleClick={this.toggleLogin} toggleModal={this.toggleModal} setUser={this.setUser}/> 
+            : 
+              <LoginForm handleClick={this.toggleLogin} toggleModal={this.toggleModal} setUser={this.setUser}/>
+            }
+        </Dialog>
+      </div>
+      <Navbar showLogin={!this.state.userId} handleClick={this.toggleModal} />
+      
+        <Route exact path='/' component={() => <Sidebar toggleSavedArticle={this.toggleSavedArticle} headlines={this.state.headlines} savedArticles={this.state.savedArticles} getCuratedHeadlines={this.getCuratedHeadlines}/>} />
         <Route exact path='/user-sources' component={() => <UserSources userSources={userSources} allSources={allSources} addSourceIdToUserSources={this.addSourceIdToUserSources} deleteUserSource={this.deleteUserSource}/>} />
-        <Route exact path='/' component={() => <Sidebar latestHeadlines={headlinesToRender} getCuratedHeadlines={this.getCuratedHeadlines}/>} />
-        <Route exact path="/login" component={() => <LoginForm />} />
-        <Route exact path="/signup" component={() => <SignUpForm />} />
       </BrowserRouter>
     </div>
   )
