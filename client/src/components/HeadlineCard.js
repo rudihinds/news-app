@@ -41,7 +41,7 @@ const HeadlineCard = (props) => {
         <Button size="small" color="primary">
           Share
         </Button>
-        <Button style={{textDecoration:'underline'}} size="small" color="primary" href={props.headlineData.url}>
+        <Button size="small" color="primary" href={props.headlineData.url}>
           Read More at {props.headlineData.source.name}
         </Button>
       </CardActions>
