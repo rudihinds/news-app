@@ -49,6 +49,7 @@ class SignUpForm extends React.Component {
   render() {
     return (
       <div>
+      <p>Sign up for an account to save your preferences</p>
       <form onSubmit={this.handleSubmit}>
         <h1>Sign Up</h1>
         {this.state.errors.map((error, i)=> <p key={`error${i}`} style={{color: 'red'}}>{error}</p>)}
@@ -77,7 +78,7 @@ class SignUpForm extends React.Component {
         </div>
       </form>
       <hr/>
-      <p onClick={this.props.toggleLogin}>If you already have an account, click here to login.</p>
+      <p onClick={this.props.handleClick}>If you already have an account, click here to login.</p>
       </div>
     )
   }

@@ -23,6 +23,7 @@ Modal.setAppElement('#root')
 class App extends React.Component{
 
   state = {
+    user: undefined,
     latestHeadlines: [],
     showModal: true,
     modalLogin: false
@@ -34,6 +35,8 @@ class App extends React.Component{
 
   toggleModal = () => this.setState({showModal: !this.state.showModal});
   toggleLogin = () => this.setState({modalLogin: !this.state.modalLogin});
+
+  setUser = (userId) => this.setState({ user: userId })
 
   render(){
   return (
@@ -52,8 +55,11 @@ class App extends React.Component{
           contentLabel="Login or Sign up"
           shouldCloseOnOverlayClick={true}
         >
-          <p>Sign up for an account to save your preferences</p>
-            {this.state.modalLogin ? <SignUpForm toggleLogin={this.toggleLogin} /> : <LoginForm handleClick={this.toggleLogin} />}
+          {this.state.modalLogin ? 
+            <SignUpForm handleClick={this.toggleLogin} toggleModal={this.toggleModal} setUser={this.setUser}/> 
+          : 
+            <LoginForm handleClick={this.toggleLogin} toggleModal={this.toggleModal} setUser={this.setUser}/>
+          }
         </Modal>
 
       </BrowserRouter>

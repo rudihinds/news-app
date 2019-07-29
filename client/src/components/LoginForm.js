@@ -1,4 +1,5 @@
 import React from 'react'
+import API from '../adapters/API'
 
 class SignIn extends React.Component {
   state = {
@@ -28,7 +29,17 @@ class SignIn extends React.Component {
         errors: []
       })
       
-      console.log(this.state.user)
+      API.logIn(this.state.user)
+        .then(resp => {
+          if (resp.errors) {
+            this.setState({ errors: resp.errors })
+          } else {
+            console.log(resp.user)
+            this.props.setUser(resp.user.id)
+            this.props.toggleModal()
+          }
+          
+        })
     } else {
       this.setState({ errors })
     }
@@ -36,23 +47,26 @@ class SignIn extends React.Component {
 
   render() {
     return (
-      <form onSubmit={this.handleSubmit}>
-        <h1>Sign In</h1>
-        {this.state.errors.map((error, i)=> <p key={`error${i}`} style={{color: 'red'}}>{error}</p>)}
-        <div>
-          <label htmlFor='username' >Username</label>
-          <input type='text' id='username' name='username' required={true} value={this.state.user.username} onChange={(e) => this.handleChange('username', e.target.value)} />
-        </div>
-        <div>
-          <label htmlFor='Password'>Password</label>
-          <input type='password' id='password' name='password' required={true} value={this.state.user.password} onChange={(e) => this.handleChange('password', e.target.value)} />
-        </div>
-        <div>
-          <button type='submit'>Submit</button>
-        </div>
-        <hr/>
-        <p onClick={this.props.handleClick}>If you do not already have an account, click here to sign up.</p>
-      </form>
+      <div>
+        <p>Login to view your customised feed.</p>
+        <form onSubmit={this.handleSubmit}>
+          <h1>Sign In</h1>
+          {this.state.errors.map((error, i)=> <p key={`error${i}`} style={{color: 'red'}}>{error}</p>)}
+          <div>
+            <label htmlFor='username' >Username</label>
+            <input type='text' id='username' name='username' required={true} value={this.state.user.username} onChange={(e) => this.handleChange('username', e.target.value)} />
+          </div>
+          <div>
+            <label htmlFor='Password'>Password</label>
+            <input type='password' id='password' name='password' required={true} value={this.state.user.password} onChange={(e) => this.handleChange('password', e.target.value)} />
+          </div>
+          <div>
+            <button type='submit'>Submit</button>
+          </div>
+          <hr/>
+          <p onClick={this.props.handleClick}>If you do not already have an account, click here to sign up.</p>
+        </form>
+      </div>
     )
   }
 }
