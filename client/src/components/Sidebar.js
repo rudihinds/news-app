@@ -26,8 +26,7 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
   },
   appBar: {
-    width: `calc(100% - ${drawerWidth}px)`,
-    marginLeft: drawerWidth,
+    zIndex: theme.zIndex.drawer + 1,
   },
   drawer: {
     width: drawerWidth,
@@ -41,7 +40,7 @@ const useStyles = makeStyles(theme => ({
     flexGrow: 1,
     backgroundColor: theme.palette.background.default,
     padding: theme.spacing(3),
-  },
+  }
 }));
 
   export default function Sidebar(props){
@@ -57,7 +56,7 @@ const useStyles = makeStyles(theme => ({
   //   const getArticleCardData = (props) => ( 
   //     props.latestHeadlines.map(headline => <HeadlineCard headline={headline} />)
   //   )
-
+    
   return (
     <div className={classes.root}>
       <CssBaseline />
