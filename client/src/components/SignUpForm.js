@@ -48,7 +48,7 @@ class SignUpForm extends React.Component {
 
   render() {
     return (
-      <div>
+      <div style={{padding: '10px'}}>
       <p>Sign up for an account to save your preferences</p>
       <form onSubmit={this.handleSubmit}>
         <h1>Sign Up</h1>

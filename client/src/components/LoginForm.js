@@ -47,7 +47,7 @@ class SignIn extends React.Component {
 
   render() {
     return (
-      <div>
+      <div style={{padding: '10px'}}>
         <p>Login to view your customised feed.</p>
         <form onSubmit={this.handleSubmit}>
           <h1>Sign In</h1>
