@@ -1,54 +1,64 @@
-<<<<<<< HEAD
 import React from 'react'
-import HeadlineContainer from './containers/HeadlinesContainer'
+import HeadlinesContainer from './containers/HeadlinesContainer'
 import Navbar from './components/Navbar'
 import API from './adapters/API'
+import MediaCard from './components/MediaCard'
+// import GridExample from './components/GridExample'
+// import 'semantic-ui-css/semantic.min.css'
+import { BrowserRouter, Route } from 'react-router-dom'
+import Login from './components/Login'
+import SignUpForm from './components/SignUpForm'
 
 class App extends React.Component{
 
   state = {
-    latestHeadlines: []
+    latestHeadlines: [],
+    topTwentyHeadlines: [],
+    userCuratedArticles: [],
+    showingAll: true
   }
 
   componentDidMount(){
-    API.getArticles().then(console.log)
+    
+    API.getArticles().then(latestHeadlines => this.setState({
+
+      latestHeadlines
+
+      // topTwentyHeadlines: this.state.latestHeadlines.slice(0,20)
+      
+
+    })) 
+    
+      // .then(this.getTwentyHeadlines())
+  }
+
+  getTwentyHeadlines = () => this.state.latestHeadlines.slice(0,20)
+
+  getCuratedHeadlines = () => {
+    API.getUserArticles()
+      .then(userCuratedArticles => {
+        this.setState({ 
+          userCuratedArticles, 
+          showingAll: false })
+      })
   }
 
   render(){
+    // const headlinesToRender, depending on the state of boolean showingAll, renders all or curated content
+    let headlinesToRender;
+    let twentyHeadlines = this.getTwentyHeadlines()
+    let userCuratedArticles = this.state.userCuratedArticles
+    this.state.showingAll ? headlinesToRender = twentyHeadlines : headlinesToRender = userCuratedArticles
+    // const userCuratedHeadlines = this.getCuratedHeadlines()
+    
   return (
+    
     <div>
-      <Navbar />
-      <h1>The App component</h1>
-      <HeadlineContainer />
+      <HeadlinesContainer latestHeadlines={headlinesToRender} getCuratedHeadlines={this.getCuratedHeadlines}/>
+      {/* <MediaCard /> */}
 
     </div>
   )
-=======
-import React from 'react';
-import './App.css';
-import { BrowserRouter, Route } from 'react-router-dom';
-import Login from './components/Login'
-import SignUpForm from './components/SignUpForm'
-
-
-class App extends React.Component {
-  state = {
-    userId: undefined
-  }
-
-  render() {
-    return (
-      <div className="App">
-        <BrowserRouter>
-          <Route exact path="/" component={() => <Login />} />
-          <Route exact path="/login" component={() => <Login />} />
-          <Route exact path="/signup" component={() => <SignUpForm />} />
-          {/* <SignIn />
-          <SignUp /> */}
-        </BrowserRouter>
-      </div>
-    );
->>>>>>> 61225b4e628fc2362ee06fce29f03db5c6bc08f5
   }
 }
 
