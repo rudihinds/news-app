@@ -1,5 +1,4 @@
 import React from 'react'
-import HeadlinesContainer from './containers/HeadlinesContainer'
 import API from './adapters/API'
 import { BrowserRouter, Route } from 'react-router-dom'
 import Dialog from '@material-ui/core/Dialog';
@@ -7,6 +6,8 @@ import LoginForm from './components/LoginForm'
 import SignUpForm from './components/SignUpForm'
 import Sidebar from './components/Sidebar';
 import UserSources from './components/UserSources';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import Navbar from './components/Navbar'
 
 class App extends React.Component{
 
@@ -62,44 +63,28 @@ class App extends React.Component{
   return (
     
     <div>
-      <div id='modal-to-top' >
-      <Dialog
-          open={this.state.showModal && this.state.userId === undefined}
-          onClose={this.toggleModal}
-        >
-          {this.state.modalLogin ? 
-            <SignUpForm handleClick={this.toggleLogin} toggleModal={this.toggleModal} setUser={this.setUser}/> 
-          : 
-            <LoginForm handleClick={this.toggleLogin} toggleModal={this.toggleModal} setUser={this.setUser}/>
-          }
-      </Dialog>
-      </div>
+      <CssBaseline />
       <BrowserRouter>
+      <div id='modal-to-top' >
+        <Dialog
+            open={this.state.showModal && this.state.userId === undefined}
+            onClose={this.toggleModal}
+          >
+            {this.state.modalLogin ? 
+              <SignUpForm handleClick={this.toggleLogin} toggleModal={this.toggleModal} setUser={this.setUser}/> 
+            : 
+              <LoginForm handleClick={this.toggleLogin} toggleModal={this.toggleModal} setUser={this.setUser}/>
+            }
+        </Dialog>
+      </div>
+      <Navbar showLogin={!this.state.userId} handleClick={this.toggleModal} />
+      
         <Route exact path='/' component={() => <Sidebar latestHeadlines={headlinesToRender} getCuratedHeadlines={this.getCuratedHeadlines}/>} />
         <Route exact path='/user-sources' component={() => <UserSources userSources={userSources}/>} />
-        <Route exact path="/login" component={() => <LoginForm />} />
-        <Route exact path="/signup" component={() => <SignUpForm />} />
       </BrowserRouter>
     </div>
   )
   }
 }
-
-
-/* <div>
-     <Navbar />
-     <h1>The App component</h1>
-     <BrowserRouter>
-       <Route exact path=“/” component={() => <HeadlinesContainer latestHeadlines={headlinesToRender} getCuratedHeadlines={this.getCuratedHeadlines}/>} />
-       <Route exact path=“/login” component={() => <LoginForm />} />
-       <Route exact path=“/signup” component={() => <SignUpForm />} />
-     </BrowserRouter>
-</div> */
-
-  // <div>
-    //   <HeadlinesContainer latestHeadlines={headlinesToRender} getCuratedHeadlines={this.getCuratedHeadlines}/>
-    //   {/* <MediaCard /> */}
-
-    // </div>
 
 export default App;
