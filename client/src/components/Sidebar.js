@@ -9,6 +9,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 import HeadlineCard from '../components/HeadlineCard'
+import HeadlinesContainer from '../containers/HeadlinesContainer';
 
 const drawerWidth = 240;
 
@@ -31,25 +32,17 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-  export default function Sidebar(props){
+  export default function Sidebar({getCuratedHeadlines, headlines}){
 
     const classes = useStyles();
 
-    const getArticleCardData = () => props.latestHeadlines.map(headline => <HeadlineCard key={headline.id} headlineData={headline}/> )
-
-    // const getUserSourcesPage
-
     const handleClick = (e) => {
-      props.getCuratedHeadlines()
+      getCuratedHeadlines()
     }
 
     const handleClickTwo = (e) => {
       alert("User Sources Clicked!")
     }
-
-  //   const getArticleCardData = (props) => ( 
-  //     props.latestHeadlines.map(headline => <HeadlineCard headline={headline} />)
-  //   )
     
   return (
     <div className={classes.root}>
@@ -86,10 +79,7 @@ const useStyles = makeStyles(theme => ({
       
         </List>
       </Drawer>
-      <main className={classes.content}>
-        <div className={classes.toolbar} />
-            {getArticleCardData()}
-      </main>
+      <HeadlinesContainer headlines={headlines}/>
     </div>
   );
 }

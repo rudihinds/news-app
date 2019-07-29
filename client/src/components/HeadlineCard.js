@@ -17,23 +17,25 @@ const useStyles = makeStyles({
   },
 });
 
-const HeadlineCard = (props) => {
+const HeadlineCard = ({ title, description, url, source, url_to_image }) => {
     const classes = useStyles();
 
   return (
     <Card className={classes.card}>
         <CardActionArea>
+        {url_to_image &&
         <CardMedia
           className={classes.media}
-          image={props.headlineData.url_to_image}
-          title={props.headlineData.title}
-        />
+          image={url_to_image}
+          src={url_to_image}
+          title={title}
+        />}
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2">
-          {props.headlineData.title}
+          {title}
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
-          {props.headlineData.description}
+          {description}
           </Typography>
         </CardContent>
       </CardActionArea>
@@ -41,8 +43,8 @@ const HeadlineCard = (props) => {
         <Button size="small" color="primary">
           Share
         </Button>
-        <Button size="small" color="primary" href={props.headlineData.url}>
-          Read More at {props.headlineData.source.name}
+        <Button size="small" color="primary" href={url}>
+          Read More at {source.name}
         </Button>
       </CardActions>
     </Card>
