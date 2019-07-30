@@ -17,7 +17,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function UserSources(props) {
-    
+
   const classes = useStyles();
 
   const handleDelete = (sourceId) => props.deleteUserSource(sourceId)
@@ -35,13 +35,16 @@ export default function UserSources(props) {
     )})
 
 
-
 //   props.UserSources.map(source => console.log(source))
 
   return (
     <div>
     <div>
-    <h1>My Sources</h1>
+        <br></br>
+        <br></br>
+        <br></br>
+        <br></br>
+    <h1>Click on the tabs to customise your news feed</h1>
     {logSources()} 
     </div>
     <div>
@@ -52,98 +55,3 @@ export default function UserSources(props) {
 
   )
 }
-    // <div className={classes.root} onClick={logSources}>
-    //   <Chip label="Basic Chip" className={classes.chip} />
-    //   <Chip
-    //     avatar={<Avatar>MB</Avatar>}
-    //     label="Clickable Chip"
-    //     onClick={handleClick}
-    //     className={classes.chip}
-    //   />
-    //   <Chip
-    //     avatar={<Avatar alt="Natacha" src="/static/images/avatar/1.jpg" />}
-    //     label="Deletable Chipieeee"
-    //     onDelete={logAllSources}
-    //     onClick={logSources}
-    //     className={classes.chip}
-    //   />
-    //   <Chip
-    //     // avatar={
-    //     //   <Avatar>
-    //     //     <FaceIcon />
-    //     //     </Avatar>
-    //     // }
-    //     label="Clickable Deletable Chippr"
-    //     onClick={logSources}
-    //     onDelete={handleDelete}
-    //     className={classes.chip}
-    //   />
-    //   <Chip
-    //     icon={<FaceIcon />}
-    //     label="Clickable Deletable Chip"
-    //     onClick={handleClick}
-    //     onDelete={handleDelete}
-    //     className={classes.chip}
-    //   />
-    //   <Chip
-    //     label="Custom delete icon Chip"
-    //     onClick={handleClick}
-    //     onDelete={handleDelete}
-    //     className={classes.chip}
-    //     deleteIcon={<DoneIcon />}
-    //   />
-    //   <Chip
-    //     label="Clickable Link Chip"
-    //     className={classes.chip}
-    //     component="a"
-    //     href="#chip"
-    //     clickable
-    //   />
-    //   <Chip
-    //     avatar={<Avatar>MB</Avatar>}
-    //     label="Primary Clickable Chip"
-    //     clickable
-    //     className={classes.chip}
-    //     color="primary"
-    //     onDelete={handleDelete}
-    //     deleteIcon={<DoneIcon />}
-    //   />
-    //   <Chip
-    //     icon={<FaceIcon />}
-    //     label="Primary Clickable Chip"
-    //     clickable
-    //     className={classes.chip}
-    //     color="primary"
-    //     onDelete={handleDelete}
-    //     deleteIcon={<DoneIcon />}
-    //   />
-    //   <Chip
-    //     label="Deletable Primary Chip"
-    //     onDelete={handleDelete}
-    //     className={classes.chip}
-    //     color="primary"
-    //   />
-    //   <Chip
-    //     avatar={
-    //       <Avatar>
-    //         <FaceIcon />
-    //       </Avatar>
-    //     }
-    //     label="Deletable Secondary Chip"
-    //     onDelete={handleDelete}
-    //     className={classes.chip}
-    //     color="secondary"
-    //   />
-    //   <Chip
-    //     icon={<FaceIcon />}
-    //     label="Deletable Secondary Chip"
-    //     onDelete={handleDelete}
-    //     className={classes.chip}
-    //     color="secondary"
-    //   />
-      
-    // </div>
-//   );
-
-
-

@@ -13,6 +13,7 @@ class App extends React.Component{
 
   state = {
     loggedIn: false,
+    allSources: [],
     userSources: [],
     showModal: true,
     modalLogin: false
@@ -29,9 +30,9 @@ class App extends React.Component{
     })
     
     API.getSources()
-      .then(allSources => this.setState({ allSources }))    
-    }
-
+      .then(allSources => allSources.sources ? this.setState({ allSources: allSources.sources }) : null)
+    
+  }
 
   allSourcesToRender = () => this.state.allSources.filter(source => !this.state.userSources.includes(source.id))
 
@@ -60,12 +61,8 @@ class App extends React.Component{
   userLogIn = () => this.setState({ loggedIn: true})
 
   render(){
-    console.log(this.state.userSources)
-    
-    let headlinesToRender;
-    let userSources = this.userSourcesToRender()
     let allSources = this.allSourcesToRender()
-    let twentyHeadlines = this.getTwentyHeadlines()
+    let userSources = this.userSourcesToRender()
     let userCuratedArticles = this.state.userCuratedArticles
     // this.state.showingAll ? headlinesToRender = twentyHeadlines : headlinesToRender = userCuratedArticles
 
@@ -93,7 +90,7 @@ class App extends React.Component{
 
         <Route exact path='/my-headlines' component={() => <Sidebar displayType='user' />} />
 
-        <Route exact path='/user-sources' component={() => <UserSources userSources={userSources}/>} />
+        <Route exact path='/user-sources' component={() => <UserSources userSources={userSources} allSources={allSources} />} />
 
       </BrowserRouter>
     </div>
