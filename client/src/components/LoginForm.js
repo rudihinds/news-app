@@ -34,8 +34,8 @@ class SignIn extends React.Component {
           if (resp.errors) {
             this.setState({ errors: resp.errors })
           } else {
-            this.props.setUser(resp.user.id)
-            this.props.toggleModal()
+            this.props.handleLogIn();
+            this.props.toggleModal();
           }
           
         })

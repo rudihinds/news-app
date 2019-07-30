@@ -9,6 +9,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 import HeadlinesContainer from '../containers/HeadlinesContainer';
+import { Link } from 'react-router-dom'
 
 const drawerWidth = 240;
 
@@ -31,17 +32,9 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-  export default function Sidebar({getCuratedHeadlines, headlines, savedArticles, toggleSavedArticle, totalHeadlines, hasNextPage, isNextPageLoading, loadNextPage}){
+  export default function Sidebar({displayType}){
 
     const classes = useStyles();
-
-    const handleClick = (e) => {
-      getCuratedHeadlines()
-    }
-
-    const handleClickTwo = (e) => {
-      alert("User Sources Clicked!")
-    }
     
   return (
     <div className={classes.root}>
@@ -57,7 +50,7 @@ const useStyles = makeStyles(theme => ({
         <Divider />
         <List>
          <br/>
-          <ListItem button key={"Latest Headlines"}>
+          <ListItem component={Link} to="/" button key={"Latest Headlines"}>
             <ListItemIcon><InboxIcon /></ListItemIcon>
             <ListItemText primary={"Latest Headlines"} />
           </ListItem>
@@ -66,12 +59,12 @@ const useStyles = makeStyles(theme => ({
         <Divider />
         <List>
          
-            <ListItem button key={"My Curated Articles"} onClick={(e) => handleClick(e)}>
+            <ListItem component={Link} to="/my-headlines" button key={"My Curated Articles"} >
               <ListItemIcon><MailIcon /></ListItemIcon>
               <ListItemText primary={"My Curated Articles"} />
             </ListItem>
 
-            <ListItem button key={"Edit Favourite Sources"} onClick={(e) => handleClickTwo(e)}>
+            <ListItem button key={"Edit Favourite Sources"} >
               <ListItemIcon><MailIcon /></ListItemIcon>
               <ListItemText primary={"Edit Fav Sources"} />
             </ListItem>
@@ -79,13 +72,7 @@ const useStyles = makeStyles(theme => ({
         </List>
       </Drawer>
       <HeadlinesContainer 
-        headlines={headlines} 
-        savedArticles={savedArticles} 
-        toggleSavedArticle={toggleSavedArticle}
-        totalHeadlines={totalHeadlines} 
-        hasNextPage={hasNextPage} 
-        isNextPageLoading={isNextPageLoading} 
-        loadNextPage={loadNextPage}
+        displayType={displayType}
       />
     </div>
   );

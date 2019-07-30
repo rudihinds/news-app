@@ -40,7 +40,7 @@ class SignUpForm extends React.Component {
           password: ''
           },
           errors: []
-        })
+        }, this.props.handleSignUp)
       })
 
     }
