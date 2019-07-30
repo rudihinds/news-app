@@ -17,6 +17,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function UserSources(props) {
+    
   const classes = useStyles();
 
   const handleDelete = (sourceId) => props.deleteUserSource(sourceId)

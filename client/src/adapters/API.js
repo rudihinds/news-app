@@ -129,6 +129,17 @@ const getUserSavedArticles = () => fetch(userArticlesUrl, {
     })
     .catch(handleServerError)
 
+  const deleteUserSource = (userSourceId) => fetch(`${userSourcesUrl}/${userSourceId}`, {
+    method: 'DELETE',
+    headers: constructHeaders({'Content-Type': 'application/json'}),
+    body: JSON.stringify({userSourceId})
+  }).then(jsonify).then(console.log)
+
+  const addUserSource = sourceId => fetch(userSourcesUrl, {
+    method: 'POST',
+    headers: constructHeaders({'Content-Type': 'application/json'}),
+    body: JSON.stringify({sourceId})
+  }).then(jsonify).then(console.log)
 
 export default {
   signUp,
@@ -143,5 +154,7 @@ export default {
   userSourcesUrl,
   postUserArticle,
   deleteUserArticle,
-  getUserSavedArticles
+  deleteUserSource,
+  getUserSavedArticles,
+  addUserSource
 }

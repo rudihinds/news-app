@@ -1,4 +1,5 @@
 class Api::V1::UserSourcesController < ApplicationController
+   skip_before_action :authorize, only: [:index]
 
 
  def index
@@ -8,9 +9,22 @@ class Api::V1::UserSourcesController < ApplicationController
    #  @favourite_sources = @user.sources.all.map{ |source| source }.uniq
     render json: user_sources
  end
+ 
 
  def destroy
-   byebug
+   
+   user_source_id = UserSource.find_by(user: @current_user, source_id: params[:id]).id
+   UserSource.delete(user_source_id)
+   render json: {action: "Deleted"}
+ end
+
+ def create
+   user_source = UserSource.create(user_id: @current_user.id, source_id: params[:sourceId])
+   if user_source.valid?
+      render json: {user_source: user_source}, status: :created
+   else
+      redner json: {errors: user_sources.errors.full_messages}, status: :not_accepted
+   end
  end
 
 

@@ -1,7 +1,7 @@
 class Article < ApplicationRecord
   belongs_to :source
   
-  # validates :url, :published_at, presence: true
+  validates :url, :published_at, presence: true
 
   default_scope{ order(published_at: :desc) }
 

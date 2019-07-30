@@ -28,11 +28,7 @@ class App extends React.Component{
     API.validateUser().then(user => {
       if (!user.error && user.id) {
         this.setState({userId: user.id, showModal: false})
-
-      API.getUserSources()
-        .then(userSources => this.setState({ userSources }))
-  
-      API.getUserSavedArticles()
+    API.getUserSavedArticles()
         .then(savedArticles => this.setState(savedArticles))
       }
     })
@@ -58,21 +54,19 @@ class App extends React.Component{
 
   userSourcesToRender = () => this.state.allSources.filter(source => this.state.userSources.includes(source.id))
 
-  addSourceIdToUserSources = sourceId => this.setState({userSources: [...this.state.userSources, sourceId]})
+  addSourceIdToUserSources = sourceId => {
+    this.setState({userSources: [...this.state.userSources, sourceId]})
+    API.addUserSource(sourceId)
+  }
 
   getTwentyHeadlines = () => this.state.headlines.slice(0,20)
 
-  deleteUserSource = (sourceId) => {
+  deleteUserSource = (userSourceId) => {
     this.setState({
-      userSources: this.state.userSources.filter(id => id !== sourceId)
+      userSources: this.state.userSources.filter(id => id !== userSourceId)
     })
-    // fetch('http://localhost:3000/api/v1/user_sources', {
-    //   method: "DELETE",
-    //   headers: {'Content-Type': 'application/json'},
-    //   body: {sourceId}
-    //   }).then(resp => resp.json())
-    //     .then(console.log)
-    }
+    API.deleteUserSource(userSourceId)
+  }
 
   getCuratedHeadlines = () => {
     API.getUserArticles()
@@ -99,7 +93,7 @@ class App extends React.Component{
   };
 
   render(){
-    // console.log(API.userSourcesUrl)
+    console.log(this.state.userSources)
     
     let headlinesToRender;
     let userSources = this.userSourcesToRender()
