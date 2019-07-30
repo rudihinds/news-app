@@ -20,7 +20,11 @@ class App extends React.Component{
     showingAll: true,
     userSources: [],
     showModal: true,
-    modalLogin: false
+    modalLogin: false,
+    totalHeadlines: 0,
+    page: 1,
+    hasNextPage: false,
+    isNextPageLoading: false
   }
 
   componentDidMount(){
@@ -37,18 +41,39 @@ class App extends React.Component{
     })
 
     API.getArticles()
-      .then(headlines => this.setState({ headlines }))
+      .then(data => this.setState({ 
+        headlines: data.articles,
+        totalHeadlines: data.totalResults,
+        hasNextPage: data.hasNextPage,
+        page: this.state.page + 1
+      }))
 
   }
+
+  loadNextPage = () => {
+    console.log("loadNextPage");
+    this.setState({ isNextPageLoading: true }, () => {
+      API.getArticles(this.state.page)
+        .then(data => this.setState({ 
+          headlines: [...this.state.headlines, ...data.articles],
+          totalHeadlines: data.totalResults,
+          hasNextPage: data.hasNextPage,
+          isNextPageLoading: false,
+          page: this.state.page + 1
+        }))
+    });
+  };
     
 
   getTwentyHeadlines = () => this.state.headlines.slice(0,20)
 
   getCuratedHeadlines = () => {
     API.getUserArticles()
-      .then(userCuratedArticles => {
+      .then(data => {
         this.setState({ 
-        userCuratedArticles, 
+        userCuratedArticles: data.articles,
+        totalHeadlines: data.totalResults,
+        hasNextPage: data.hasNextPage,
         showingAll: false })
     })
   }
@@ -73,6 +98,7 @@ class App extends React.Component{
     let userCuratedArticles = this.state.userCuratedArticles
     // this.state.showingAll ? headlinesToRender = twentyHeadlines : headlinesToRender = userCuratedArticles
 
+    
   return (
     
     <div>
@@ -92,8 +118,20 @@ class App extends React.Component{
       </div>
       <Navbar showLogin={!this.state.userId} handleClick={this.toggleModal} />
       
-        <Route exact path='/' component={() => <Sidebar toggleSavedArticle={this.toggleSavedArticle} headlines={this.state.headlines} savedArticles={this.state.savedArticles} getCuratedHeadlines={this.getCuratedHeadlines}/>} />
+        <Route exact path='/' component={() => 
+          <Sidebar 
+            toggleSavedArticle={this.toggleSavedArticle} 
+            headlines={this.state.headlines} 
+            savedArticles={this.state.savedArticles} 
+            getCuratedHeadlines={this.getCuratedHeadlines} 
+            totalHeadlines={this.state.totalHeadlines} 
+            hasNextPage={this.state.hasNextPage} 
+            isNextPageLoading={this.state.isNextPageLoading} 
+            loadNextPage={this.loadNextPage} />} 
+          />
+
         <Route exact path='/user-sources' component={() => <UserSources userSources={userSources}/>} />
+
       </BrowserRouter>
     </div>
   )

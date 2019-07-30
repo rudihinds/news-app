@@ -23,13 +23,13 @@ const constructHeaders = (moreHeaders = {}) => (
   }
 )
 
-const getUserArticles = () => {
-  return fetch(articlesUrl, { headers: constructHeaders() })
+const getUserArticles = (page = 1) => {
+  return fetch(`${articlesUrl}?page=${page}`, { headers: constructHeaders() })
     .then(resp => resp.json())
 }
 
-const getArticles = () => {
-  return fetch(`${articlesUrl}?all=true`, { headers: constructHeaders() })
+const getArticles = (page = 1) => {
+  return fetch(`${articlesUrl}?page=${page}&all=true`, { headers: constructHeaders() })
     .then(resp => resp.json())
 }
 
