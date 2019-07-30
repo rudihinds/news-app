@@ -86,9 +86,9 @@ class App extends React.Component{
       </div>
       <Navbar showLogin={!this.state.loggedIn} handleClick={this.toggleModal} handleLogOut={this.userLogOut} />
       
-        <Route exact path='/' component={() => <Sidebar displayType='all' />} />
+        <Route exact path='/' component={() => <Sidebar displayType='all' loggedIn={this.state.loggedIn} />} />
 
-        <Route exact path='/my-headlines' component={() => <Sidebar displayType='user' />} />
+        <Route exact path='/my-headlines' component={() => <Sidebar displayType='user' loggedIn={this.state.loggedIn} />} />
 
         <Route exact path='/user-sources' component={() => <UserSources userSources={userSources} allSources={allSources} />} />
 

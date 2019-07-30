@@ -32,7 +32,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-  export default function Sidebar({displayType}){
+  export default function Sidebar({displayType, loggedIn}){
 
     const classes = useStyles();
     
@@ -73,6 +73,7 @@ const useStyles = makeStyles(theme => ({
       </Drawer>
       <HeadlinesContainer 
         displayType={displayType}
+        loggedIn={loggedIn}
       />
     </div>
   );

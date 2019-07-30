@@ -13,8 +13,12 @@ class User < ApplicationRecord
 
     strip_attributes collapse_spaces: true, replace_newlines: true
     
-    def get_top_headlines
-        Article.getTopHeadlines(sources: self.sources.map{|source| source.api_id})
+    def get_top_headlines(page: 1)
+      if self.sources.length == 0
+        {articles: [], totalResults: 0, hasNextPage: false}
+      else
+        Article.get_top_headlines(sources: self.sources.map{|source| source.api_id}, page: page)
+      end
     end
 
     def headlines_history

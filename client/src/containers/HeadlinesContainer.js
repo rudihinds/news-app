@@ -14,9 +14,9 @@ class HeadlinesContainer extends React.Component {
   componentDidMount = () => {
     this.getArticles();
     window.addEventListener('scroll', this.handleScroll)
-
-    API.getUserSavedArticles()
-      .then(savedArticles => this.setState(savedArticles))
+    
+    if (this.props.loggedIn) API.getUserSavedArticles()
+        .then(savedArticles => this.setState(savedArticles))
   }
 
   componnentWillUnmount = () => window.removeEventListener('scroll', this.handleScroll)
@@ -35,8 +35,7 @@ class HeadlinesContainer extends React.Component {
   }
 
   getArticles = () => {
-    (this.props.displayType === 'all' ? API.getArticles() : API.getUserArticles())
-    // API.getArticles()
+    ((this.props.displayType === 'all' || !this.props.loggedIn) ? API.getArticles() : API.getUserArticles())
     .then(data => this.setState({ 
       headlines: this.state.page === 1 ? data.articles : [...this.state.headlines, ...data.articles],
       hasNextPage: data.hasNextPage,
@@ -66,14 +65,18 @@ class HeadlinesContainer extends React.Component {
     return (
       <main >
         <div  />
-            {headlines.map(headline => (
-              <React.Fragment key={headline.id}>
-                <br />
-                <div style={{ display: 'flex', width: '50vw' }}>
-                <HeadlineCard key={headline.id} {...headline} savedArticles={savedArticles} toggleSavedArticle={toggleSavedArticle}/>
-                </div>
-              </React.Fragment>
-            ))}
+            {headlines.length === 0 ? 
+              <h1 style={{marginTop: '100px', marginLeft: '20px'}}>No headlines to display</h1> 
+            : 
+              headlines.map(headline => (
+                <React.Fragment key={headline.id}>
+                  <br />
+                  <div style={{ display: 'flex', width: '50vw' }}>
+                  <HeadlineCard key={headline.id} {...headline} savedArticles={savedArticles} toggleSavedArticle={toggleSavedArticle} loggedIn={this.props.loggedIn} />
+                  </div>
+                </React.Fragment>
+              ))
+            }
             <br />
             {isNextPageLoading &&
               <div>Loading...</div>

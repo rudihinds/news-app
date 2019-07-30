@@ -20,7 +20,7 @@ const useStyles = makeStyles({
   },
 });
 
-const HeadlineCard = ({ id, title, description, url, source, url_to_image, savedArticles, toggleSavedArticle}) => {
+const HeadlineCard = ({ id, title, description, url, source, url_to_image, savedArticles, toggleSavedArticle, loggedIn}) => {
     
   const classes = useStyles();
 
@@ -54,9 +54,9 @@ const HeadlineCard = ({ id, title, description, url, source, url_to_image, saved
         </CardContent>
       </CardActionArea>
       <CardActions>
-        <Button size="small" color="primary" onClick={savedArticles.includes(id) ? unsaveArticle : saveArticle}>
+        {loggedIn ? <Button size="small" color="primary" onClick={savedArticles.includes(id) ? unsaveArticle : saveArticle}>
           {savedArticles.includes(id) ? 'Saved' : 'Save'}
-        </Button>
+        </Button> : ''}
         <Button size="small" color="primary" href={url}>
           Read More at {source.name}
         </Button>
