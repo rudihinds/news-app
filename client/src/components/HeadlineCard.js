@@ -11,10 +11,12 @@ import API from '../adapters/API'
 
 const useStyles = makeStyles({
   card: {
-    maxWidth: 'auto',
+    width: '100%'
   },
   media: {
     height: 300,
+    backgroundSize: 'contain',
+    marginTop: '20px'
   },
 });
 
