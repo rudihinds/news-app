@@ -8,7 +8,6 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
-import HeadlineCard from '../components/HeadlineCard'
 import HeadlinesContainer from '../containers/HeadlinesContainer';
 import { Link } from 'react-router-dom'
 
@@ -33,7 +32,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-  export default function Sidebar({getCuratedHeadlines, headlines, savedArticles, toggleSavedArticle}){
+  export default function Sidebar({getCuratedHeadlines, headlines, savedArticles, toggleSavedArticle, totalHeadlines, hasNextPage, isNextPageLoading, loadNextPage}){
 
     const classes = useStyles();
 
@@ -81,7 +80,15 @@ const useStyles = makeStyles(theme => ({
       
         </List>
       </Drawer>
-      <HeadlinesContainer headlines={headlines} savedArticles={savedArticles} toggleSavedArticle={toggleSavedArticle}/>
+      <HeadlinesContainer 
+        headlines={headlines} 
+        savedArticles={savedArticles} 
+        toggleSavedArticle={toggleSavedArticle}
+        totalHeadlines={totalHeadlines} 
+        hasNextPage={hasNextPage} 
+        isNextPageLoading={isNextPageLoading} 
+        loadNextPage={loadNextPage}
+      />
     </div>
   );
 }
