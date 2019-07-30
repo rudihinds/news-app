@@ -13,41 +13,14 @@ class App extends React.Component{
 
   state = {
     loggedIn: false,
-    allSources: [],
-    userSources: [],
     showModal: true,
     modalLogin: false
   }
   
   componentDidMount(){
     API.validateUser().then(user => {
-      if (!user.error && user.id) {
-        this.setState({loggedIn: true, showModal: false})
-
-        API.getUserSources()
-          .then(userSources => this.setState({ userSources: userSources.map( source => source.id ) }))
-      }
+      if (!user.error && user.id) this.setState({loggedIn: true, showModal: false})
     })
-    
-    API.getSources()
-      .then(allSources => allSources.sources ? this.setState({ allSources: allSources.sources }) : null)
-    
-  }
-
-  allSourcesToRender = () => this.state.allSources.filter(source => !this.state.userSources.includes(source.id))
-
-  userSourcesToRender = () => this.state.allSources.filter(source => this.state.userSources.includes(source.id))
-
-  addSourceIdToUserSources = sourceId => {
-    this.setState({userSources: [...this.state.userSources, sourceId]})
-    API.addUserSource(sourceId)
-  }
-
-  deleteUserSource = (userSourceId) => {
-    this.setState({
-      userSources: this.state.userSources.filter(id => id !== userSourceId)
-    })
-    API.deleteUserSource(userSourceId)
   }
 
   toggleModal = () => this.setState({showModal: !this.state.showModal});
@@ -56,17 +29,12 @@ class App extends React.Component{
   userLogOut = () => {
     API.clearToken();
     this.setState({ loggedIn: false})
+    
   }
 
   userLogIn = () => this.setState({ loggedIn: true})
 
   render(){
-    let allSources = this.allSourcesToRender()
-    let userSources = this.userSourcesToRender()
-    let userCuratedArticles = this.state.userCuratedArticles
-    // this.state.showingAll ? headlinesToRender = twentyHeadlines : headlinesToRender = userCuratedArticles
-
-    
   return (
     
     <div>
@@ -90,7 +58,7 @@ class App extends React.Component{
 
         <Route exact path='/my-headlines' component={() => <Sidebar displayType='user' loggedIn={this.state.loggedIn} />} />
 
-        <Route exact path='/user-sources' component={() => <UserSources userSources={userSources} allSources={allSources} />} />
+        <Route exact path='/user-sources' component={() => <UserSources loggedIn={this.state.loggedIn} />} />
 
       </BrowserRouter>
     </div>

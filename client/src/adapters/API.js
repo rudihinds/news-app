@@ -115,7 +115,7 @@ const postUserArticle = (article_id) => fetch(userArticlesUrl, {
 const deleteUserArticle = (article_id) => fetch(`${userArticlesUrl}/${article_id}`, {
   method: 'DELETE',
   headers: constructHeaders({'Content-Type': 'application/json'})
-}).then(jsonify).then(console.log)
+}).then(jsonify)
 
 const getUserSavedArticles = () => fetch(userArticlesUrl, {
     headers: constructHeaders()
@@ -133,13 +133,13 @@ const getUserSavedArticles = () => fetch(userArticlesUrl, {
     method: 'DELETE',
     headers: constructHeaders({'Content-Type': 'application/json'}),
     body: JSON.stringify({userSourceId})
-  }).then(jsonify).then(console.log)
+  }).then(jsonify)
 
   const addUserSource = sourceId => fetch(userSourcesUrl, {
     method: 'POST',
     headers: constructHeaders({'Content-Type': 'application/json'}),
     body: JSON.stringify({sourceId})
-  }).then(jsonify).then(console.log)
+  }).then(jsonify)
 
 export default {
   signUp,

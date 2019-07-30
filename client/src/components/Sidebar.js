@@ -58,7 +58,8 @@ const useStyles = makeStyles(theme => ({
         </List>
         <Divider />
         <List>
-         
+         {loggedIn ?
+            <>
             <ListItem component={Link} to="/my-headlines" button key={"My Curated Articles"} >
               <ListItemIcon><MailIcon /></ListItemIcon>
               <ListItemText primary={"My Curated Articles"} />
@@ -68,6 +69,10 @@ const useStyles = makeStyles(theme => ({
               <ListItemIcon><MailIcon /></ListItemIcon>
               <ListItemText primary={"Edit Fav Sources"} />
             </ListItem>
+            </>
+          :
+            ''
+         }
       
         </List>
       </Drawer>

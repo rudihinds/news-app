@@ -1,57 +1,77 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
 import Avatar from '@material-ui/core/Avatar';
 import Chip from '@material-ui/core/Chip';
-import FaceIcon from '@material-ui/icons/Face';
-import DoneIcon from '@material-ui/icons/Done';
+import API from '../adapters/API'
 
-const useStyles = makeStyles(theme => ({
-  root: {
-    display: 'flex',
-    justifyContent: 'center',
-    flexWrap: 'wrap',
-  },
-  chip: {
-    margin: theme.spacing(1),
-  },
-}));
+export default class UserSources extends React.Component {
+  state = {
+    allSources: [],
+    userSources: []
+  }
 
-export default function UserSources(props) {
+  componentDidMount() {
+    API.getSources()
+    .then(allSources => allSources.sources ? this.setState({ allSources: allSources.sources }) : null)
 
-  const classes = useStyles();
+    API.getUserSources()
+      .then(userSources => this.setState({ userSources: userSources.map( source => source.id ) }))
+  }
 
-  const handleDelete = (sourceId) => props.deleteUserSource(sourceId)
+  allSourcesToRender = () => this.state.allSources.filter(source => !this.state.userSources.includes(source.id))
 
-  const handleClick = (sourceId) => props.addSourceIdToUserSources(sourceId)
+  userSourcesToRender = () => this.state.allSources.filter(source => this.state.userSources.includes(source.id))
+
+  addSourceIdToUserSources = sourceId => {
+    API.addUserSource(sourceId)
+    .then(this.setState({userSources: [...this.state.userSources, sourceId]}))
+  }
+
+  deleteUserSource = (userSourceId) => {
+    API.deleteUserSource(userSourceId)
+      .then(this.setState({userSources: this.state.userSources.filter(id => id !== userSourceId)}))
+  }
   
-  const logAllSources = () => props.allSources.map(source => {
+  logAllSources = () => this.allSourcesToRender().map(source => {
     return (
-        <Chip label={source.name} className={classes.chip} onClick={() => handleClick(source.id)} size="small" variant="outlined"/>
+        <Chip key={source.id}
+          avatar={<Avatar alt="Natacha" src={`https://icon-locator.herokuapp.com/icon?url=${source.url}&size=70..120..200`} />}
+          style={{margin: '5px'}} 
+          label={source.name} 
+          onClick={() => this.addSourceIdToUserSources(source.id)} 
+          size="medium" 
+          variant="outlined"
+        />
     )})
 
-  const logSources = () => props.userSources.map(source => {
+  logSources = () => this.userSourcesToRender().map(source => {
     return (
-        <Chip label={source.name} className={classes.chip} onDelete={() => handleDelete(source.id)} color="primary" variant="default"/>
+        <Chip key={source.id}
+          avatar={<Avatar alt="Natacha" src={`https://icon-locator.herokuapp.com/icon?url=${source.url}&size=70..120..200`} />}
+          style={{margin: '5px'}} 
+          label={source.name} 
+          onDelete={() => this.deleteUserSource(source.id)} 
+          color="primary" 
+          variant="default"
+        />
     )})
 
+  render() {
+    return (
+      <div>
+      <div>
+          <br></br> 
+          <br></br>
+          <br></br>
+          <br></br>
+      <h1>Click on the tabs to customise your news feed</h1>
+      {this.logSources()} 
+      </div>
+      <div>
+      <h1>All Sources</h1>
+      {this.logAllSources()}
+      </div>
+      </div>
 
-//   props.UserSources.map(source => console.log(source))
-
-  return (
-    <div>
-    <div>
-        <br></br>
-        <br></br>
-        <br></br>
-        <br></br>
-    <h1>Click on the tabs to customise your news feed</h1>
-    {logSources()} 
-    </div>
-    <div>
-    <h1>All Sources</h1>
-    {logAllSources()}
-    </div>
-    </div>
-
-  )
+    )
+  }
 }
