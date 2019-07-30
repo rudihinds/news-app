@@ -30,11 +30,15 @@ export default class UserSources extends React.Component {
     API.deleteUserSource(userSourceId)
       .then(this.setState({userSources: this.state.userSources.filter(id => id !== userSourceId)}))
   }
-  
+
+  defaultImage = e => {
+    e.target.src = require('../default_avatar.png')
+  }
+
   logAllSources = () => this.allSourcesToRender().map(source => {
     return (
         <Chip key={source.id}
-          avatar={<Avatar alt="Natacha" src={`https://icon-locator.herokuapp.com/icon?url=${source.url}&size=70..120..200`} />}
+          avatar={<Avatar alt="Natacha" imgProps={{onError: this.defaultImage}} src={`https://icon-locator.herokuapp.com/icon?url=${source.url}&size=70..120..200&fallback_icon_color=ff0000`} />}
           style={{margin: '5px'}} 
           label={source.name} 
           onClick={() => this.addSourceIdToUserSources(source.id)} 
@@ -46,7 +50,7 @@ export default class UserSources extends React.Component {
   logSources = () => this.userSourcesToRender().map(source => {
     return (
         <Chip key={source.id}
-          avatar={<Avatar alt="Natacha" src={`https://icon-locator.herokuapp.com/icon?url=${source.url}&size=70..120..200`} />}
+          avatar={<Avatar alt="Natacha" imgProps={{onError: this.defaultImage}} src={`https://icon-locator.herokuapp.com/icon?url=${source.url}&size=70..120..200`} />}
           style={{margin: '5px'}} 
           label={source.name} 
           onDelete={() => this.deleteUserSource(source.id)} 

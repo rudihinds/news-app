@@ -5,7 +5,6 @@ import Dialog from '@material-ui/core/Dialog';
 import LoginForm from './components/LoginForm'
 import SignUpForm from './components/SignUpForm'
 import Sidebar from './components/Sidebar';
-import UserSources from './components/UserSources';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Navbar from './components/Navbar'
 import PrivateRoute from './components/PrivateRoute'
@@ -35,7 +34,6 @@ class App extends React.Component{
   userLogIn = () => this.setState({ loggedIn: true})
 
   render(){
-    console.log(this.props)
     return (
       <div>
         <CssBaseline />
@@ -54,17 +52,17 @@ class App extends React.Component{
         </div>
         <Navbar showLogin={!this.state.loggedIn} handleClick={this.toggleModal} handleLogOut={this.userLogOut} />
         <Switch>
-          <Route exact path='/' component={() => <Sidebar displayType='all' loggedIn={this.state.loggedIn} />} />
+          <Route exact path='/' component={(props) => <Sidebar {...props} displayType='all' loggedIn={this.state.loggedIn} />} />
           
           <PrivateRoute 
             loggedIn={this.state.loggedIn} 
-            component={() => <Sidebar displayType='user' loggedIn={this.state.loggedIn} />} 
+            component={(props) => <Sidebar {...props} displayType='user' loggedIn={this.state.loggedIn} />} 
             path='/my-headlines' exact 
           />
 
           <PrivateRoute 
             loggedIn={this.state.loggedIn} 
-            component={() => <UserSources loggedIn={this.state.loggedIn}/>} 
+            component={(props) => <Sidebar {...props} loggedIn={this.state.loggedIn}/>} 
             path='/user-sources' exact 
           />
 
