@@ -64,9 +64,9 @@ class HeadlinesContainer extends React.Component {
 
     return (
       <main >
-        <div  />
+        <div  style={{ marginTop: '10vh' }} />
             {headlines.length === 0 ? 
-              <h1 style={{marginTop: '100px', marginLeft: '20px'}}>No headlines to display</h1> 
+              <h1 style={{marginTop: '15vh', marginLeft: '3vh'}}>No headlines to display</h1> 
             : 
               headlines.map(headline => (
                 <React.Fragment key={headline.id}>
