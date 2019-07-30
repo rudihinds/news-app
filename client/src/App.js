@@ -21,7 +21,6 @@ class App extends React.Component{
     userSources: [],
     showModal: true,
     modalLogin: false,
-    totalHeadlines: 0,
     page: 1,
     hasNextPage: false,
     isNextPageLoading: false
@@ -40,27 +39,23 @@ class App extends React.Component{
       }
     })
 
-    API.getArticles()
-      .then(data => this.setState({ 
-        headlines: data.articles,
-        totalHeadlines: data.totalResults,
-        hasNextPage: data.hasNextPage,
-        page: this.state.page + 1
-      }))
+    this.getArticles();
 
   }
 
+  getArticles = () => {
+    API.getArticles()
+    .then(data => this.setState({ 
+      headlines: this.state.page === 1 ? data.articles : [...this.state.headlines, ...data.articles],
+      hasNextPage: data.hasNextPage,
+      isNextPageLoading: false,
+      page: this.state.page + 1
+    }))
+  }
+
   loadNextPage = () => {
-    console.log("loadNextPage");
     this.setState({ isNextPageLoading: true }, () => {
-      API.getArticles(this.state.page)
-        .then(data => this.setState({ 
-          headlines: [...this.state.headlines, ...data.articles],
-          totalHeadlines: data.totalResults,
-          hasNextPage: data.hasNextPage,
-          isNextPageLoading: false,
-          page: this.state.page + 1
-        }))
+      this.getArticles();
     });
   };
     
