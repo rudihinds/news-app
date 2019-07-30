@@ -39,7 +39,7 @@ class App extends React.Component{
     this.getArticles();
     
     API.getSources()
-      .then(allSources => this.setState({ allSources }))
+      .then(allSources => allSources.sources ? this.setState({ allSources: allSources.sources }) : null)
     API.getUserSources()
       .then(userSources => this.setState({ userSources: userSources.map( source => source.id ) }))
     
@@ -115,11 +115,13 @@ class App extends React.Component{
   };
 
   render(){
+    console.log(this.state.allSources)
     console.log(this.state.userSources)
     
+    
     let headlinesToRender;
-    let userSources = this.userSourcesToRender()
     let allSources = this.allSourcesToRender()
+    let userSources = this.userSourcesToRender()
     let twentyHeadlines = this.getTwentyHeadlines()
     let userCuratedArticles = this.state.userCuratedArticles
     // this.state.showingAll ? headlinesToRender = twentyHeadlines : headlinesToRender = userCuratedArticles
@@ -157,7 +159,7 @@ class App extends React.Component{
             loadNextPage={this.loadNextPage} />} 
           />
 
-        <Route exact path='/user-sources' component={() => <UserSources userSources={userSources}/>} />
+        {/* <Route exact path='/user-sources' component={() => <UserSources userSources={userSources}/>} /> */}
 
       </BrowserRouter>
     </div>

@@ -40,9 +40,6 @@ const useStyles = makeStyles(theme => ({
       getCuratedHeadlines()
     }
 
-    const handleClickTwo = (e) => {
-      alert("User Sources Clicked!")
-    }
     
   return (
     <div className={classes.root}>
@@ -72,7 +69,7 @@ const useStyles = makeStyles(theme => ({
               <ListItemText primary={"My Curated Articles"} />
             </ListItem>
             <Link to='/user-sources'>
-            <ListItem button key={"Edit Favourite Sources"} onClick={(e) => handleClickTwo(e)}>
+            <ListItem button key={"Edit Favourite Sources"}>
               <ListItemIcon><MailIcon /></ListItemIcon>
               <ListItemText primary={"Edit Fav Sources"} />
             </ListItem>
