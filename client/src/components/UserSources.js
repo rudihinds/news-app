@@ -39,10 +39,10 @@ export default class UserSources extends React.Component {
     return (
         <Chip key={source.id}
           avatar={<Avatar alt="Natacha" imgProps={{onError: this.defaultImage}} src={`https://icon-locator.herokuapp.com/icon?url=${source.url}&size=70..120..200&fallback_icon_color=ff0000`} />}
-          style={{margin: '5px'}} 
+          style={{margin: '1vh'}} 
           label={source.name} 
           onClick={() => this.addSourceIdToUserSources(source.id)} 
-          size="medium" 
+          size="medium"
           variant="outlined"
         />
     )})
@@ -50,8 +50,8 @@ export default class UserSources extends React.Component {
   logSources = () => this.userSourcesToRender().map(source => {
     return (
         <Chip key={source.id}
-          avatar={<Avatar alt="Natacha" imgProps={{onError: this.defaultImage}} src={`https://icon-locator.herokuapp.com/icon?url=${source.url}&size=70..120..200`} />}
-          style={{margin: '5px'}} 
+          avatar={<Avatar alt={`${source.name} logo`}imgProps={{onError: this.defaultImage}} src={`https://icon-locator.herokuapp.com/icon?url=${source.url}&size=70..120..200`} />}
+          style={{margin: '1vh'}} 
           label={source.name} 
           onDelete={() => this.deleteUserSource(source.id)} 
           color="primary" 
@@ -61,7 +61,7 @@ export default class UserSources extends React.Component {
 
   render() {
     return (
-      <div>
+      <div style={{margin: '1vw'}} >
       <div>
           <br></br> 
           <br></br>
