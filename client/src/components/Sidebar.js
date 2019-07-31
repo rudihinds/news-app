@@ -11,12 +11,13 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function Sidebar({displayType, loggedIn, location}){
-
+  const [redirectSubmit, setRedirectSubmit] = React.useState(false);
+  const [searchTerm, setSearchTerm] = React.useState('')
   const classes = useStyles();
   
   return (
     <div className={classes.root}>
-      <Sidenav loggedIn={loggedIn} />
+      <Sidenav loggedIn={loggedIn} searchTerm={searchTerm} handleChange={setSearchTerm} redirectSubmit={redirectSubmit} setRedirectSubmit={setRedirectSubmit}/>
       
       {location.pathname === '/user-sources'
       ?
@@ -25,6 +26,8 @@ export default function Sidebar({displayType, loggedIn, location}){
         <HeadlinesContainer 
           displayType={displayType}
           loggedIn={loggedIn}
+          search={location.search.slice(1)}
+          setRedirectSubmit={setRedirectSubmit}
         />
       }
     </div>

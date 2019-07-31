@@ -5,9 +5,9 @@ class Article < ApplicationRecord
 
   PAGE_SIZE = 20
 
-  def self.get_top_headlines(sources: Source.all.map{|source| source.api_id}, page: 1)
+  def self.get_top_headlines(sources: Source.all.map{|source| source.api_id}, page: 1, search: nil)
     
-    data = JSON.parse(RestClient.get("https://newsapi.org/v2/top-headlines?sources=#{sources.join(',')}&page=#{page}&apiKey=#{ENV["API_KEY"]}"))
+    data = JSON.parse(RestClient.get("https://newsapi.org/v2/top-headlines?sources=#{sources.join(',')}#{search ? "&#{search}" : ''}&page=#{page}&apiKey=#{ENV["API_KEY"]}"))
 
     articles = data['articles']
     no_results = data['totalResults']

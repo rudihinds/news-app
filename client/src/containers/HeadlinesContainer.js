@@ -19,11 +19,16 @@ class HeadlinesContainer extends React.Component {
         .then(savedArticles => this.setState(savedArticles))
   }
 
+  componentDidUpdate(prevProps) {
+    if (prevProps.search !== this.props.search) {
+      this.setState({page: 1}, this.getArticles(1));
+    }
+  }
+
   componnentWillUnmount = () => window.removeEventListener('scroll', this.handleScroll)
 
   handleScroll = () => {
-    const {hasNextPage, isNextPageLoading} = this.props
-
+    const {hasNextPage, isNextPageLoading} = this.state
     if (isNextPageLoading || !hasNextPage) return;
   
     if (
@@ -34,13 +39,21 @@ class HeadlinesContainer extends React.Component {
     }
   }
 
-  getArticles = () => {
-    ((this.props.displayType === 'all' || !this.props.loggedIn) ? API.getArticles() : API.getUserArticles())
-    .then(data => this.setState({ 
-      headlines: this.state.page === 1 ? data.articles : [...this.state.headlines, ...data.articles],
-      hasNextPage: data.hasNextPage,
-      isNextPageLoading: false,
-      page: this.state.page + 1
+  articleType = (page) => {
+    if (this.props.displayType === 'user' && this.props.loggedIn) return API.getArticles({page: this.state.page, type: 'user'})
+
+    if (this.props.displayType === 'search') return API.getArticles({page: page ? page : this.state.page, type: this.props.displayType, search: this.props.search})
+
+    return API.getArticles({page: this.state.page, type: 'all'})
+  }
+
+  getArticles = (page) => {
+    this.articleType(page)
+      .then(data => this.setState({ 
+        headlines: this.state.page === 1 ? data.articles : [...this.state.headlines, ...data.articles],
+        hasNextPage: data.hasNextPage,
+        isNextPageLoading: false,
+        page: this.state.page + 1
     }))
   }
 

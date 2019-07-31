@@ -9,6 +9,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 import { Link } from 'react-router-dom'
+import SearchForm from './SearchForm'
 
 const drawerWidth = 240;
 
@@ -23,7 +24,7 @@ const useStyles = makeStyles(theme => ({
   toolbar: theme.mixins.toolbar
 }));
 
-  export default function Sidenav({loggedIn}){
+  export default function Sidenav({loggedIn, searchTerm, handleChange, redirectSubmit, setRedirectSubmit}){
 
   const classes = useStyles();
 
@@ -38,6 +39,7 @@ const useStyles = makeStyles(theme => ({
     >
       <div className={classes.toolbar} />
       <Divider />
+      
       <List>
         <br/>
         <ListItem component={Link} to="/" button key={"Latest Headlines"}>
@@ -59,11 +61,15 @@ const useStyles = makeStyles(theme => ({
             <ListItemIcon><MailIcon /></ListItemIcon>
             <ListItemText primary={"Edit Fav Sources"} />
           </ListItem>
+          <Divider />
           </>
         :
           ''
         }
     
+      </List>
+      <List>
+        <SearchForm searchTerm={searchTerm} handleChange={handleChange} redirectSubmit={redirectSubmit} setRedirectSubmit={setRedirectSubmit} location={location} />
       </List>
     </Drawer>
 

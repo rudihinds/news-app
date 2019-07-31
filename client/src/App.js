@@ -53,6 +53,8 @@ class App extends React.Component{
         <Navbar showLogin={!this.state.loggedIn} handleClick={this.toggleModal} handleLogOut={this.userLogOut} />
         <Switch>
           <Route exact path='/' component={(props) => <Sidebar {...props} displayType='all' loggedIn={this.state.loggedIn} />} />
+
+          <Route path='/search-results' component={(props) => <Sidebar {...props} displayType='search' loggedIn={this.state.loggedIn} />} />
           
           <PrivateRoute 
             loggedIn={this.state.loggedIn} 

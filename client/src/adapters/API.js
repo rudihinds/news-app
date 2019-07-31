@@ -23,13 +23,8 @@ const constructHeaders = (moreHeaders = {}) => (
   }
 )
 
-const getUserArticles = (page = 1) => {
-  return fetch(`${articlesUrl}?page=${page}`, { headers: constructHeaders() })
-    .then(resp => resp.json())
-}
-
-const getArticles = (page = 1) => {
-  return fetch(`${articlesUrl}?page=${page}&all=true`, { headers: constructHeaders() })
+const getArticles = ({page, type, search}) => {
+  return fetch(`${articlesUrl}?page=${page}&type=${type}${search ? `&search=${search}` : ''}`, { headers: constructHeaders() })
     .then(resp => resp.json())
 }
 
@@ -149,7 +144,6 @@ export default {
   getUsers,
   getArticles,
   getSources,
-  getUserArticles,
   getUserSources,
   userSourcesUrl,
   postUserArticle,
