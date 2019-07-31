@@ -72,7 +72,6 @@ class HeadlinesContainer extends React.Component {
   };
 
   render() {
-    const {toggleSavedArticle} = this.props
     const {headlines, savedArticles, hasNextPage, isNextPageLoading} = this.state
 
     return (
@@ -85,7 +84,7 @@ class HeadlinesContainer extends React.Component {
                 <React.Fragment key={headline.id}>
                   <br />
                   <div style={{ display: 'flex', width: '50vw' }}>
-                  <HeadlineCard key={headline.id} {...headline} savedArticles={savedArticles} toggleSavedArticle={toggleSavedArticle} loggedIn={this.props.loggedIn} />
+                  <HeadlineCard key={headline.id} {...headline} savedArticles={savedArticles} toggleSavedArticle={this.toggleSavedArticle} loggedIn={this.props.loggedIn} />
                   </div>
                 </React.Fragment>
               ))
