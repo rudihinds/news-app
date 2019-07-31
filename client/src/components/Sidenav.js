@@ -69,7 +69,7 @@ const useStyles = makeStyles(theme => ({
     
       </List>
       <List>
-        <SearchForm searchTerm={searchTerm} handleChange={handleChange} redirectSubmit={redirectSubmit} setRedirectSubmit={setRedirectSubmit} location={location} />
+        <SearchForm searchTerm={searchTerm} handleChange={handleChange} redirectSubmit={redirectSubmit} setRedirectSubmit={setRedirectSubmit} />
       </List>
     </Drawer>
 
