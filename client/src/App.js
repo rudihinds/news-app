@@ -8,6 +8,7 @@ import Sidebar from './components/Sidebar';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Navbar from './components/Navbar'
 import PrivateRoute from './components/PrivateRoute'
+import Footer from './components/Footer'
 
 class App extends React.Component{
 
@@ -36,8 +37,8 @@ class App extends React.Component{
   render(){
     return (
       <div>
-        <CssBaseline />
         <BrowserRouter>
+        <CssBaseline />
         <div id='modal-to-top' >
           <Dialog
               open={this.state.showModal && !this.state.loggedIn}
@@ -70,6 +71,7 @@ class App extends React.Component{
 
          </Switch>
         </BrowserRouter>
+        <Footer />
       </div>
     )
   }
