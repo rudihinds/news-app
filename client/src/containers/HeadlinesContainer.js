@@ -76,13 +76,13 @@ class HeadlinesContainer extends React.Component {
 
     return (
       <main >
-        <div  style={{ marginTop: '10vh' }} />
+        <div  style={{ marginTop: '8.5vh' }} />
             {headlines.length === 0 ? 
               <h1 style={{marginTop: '15vh', marginLeft: '3vh'}}>No headlines to display</h1> 
             : 
               headlines.map(headline => (
                 <React.Fragment key={headline.id}>
-                  <br />
+                  {/* <br /> */}
                   <div style={{ display: 'flex', width: '50vw' }}>
                   <HeadlineCard key={headline.id} {...headline} savedArticles={savedArticles} toggleSavedArticle={this.toggleSavedArticle} loggedIn={this.props.loggedIn} />
                   </div>
