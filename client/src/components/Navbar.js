@@ -16,9 +16,11 @@ const Navbar = ({showLogin, handleClick, handleLogOut}) => {
     navbarLogo: {
       width: '55px',
       height: '55px',
-      paddingTop: "5px",
+      // paddingTop: "5px",
       paddingBotom: "5px",
-      marginLeft: "10px"
+      marginLeft: "10px",
+      marginTop: "5px",
+      border: "2px solid white"
     },
     title: {
       flexGrow: 1,
