@@ -1,10 +1,9 @@
 class Api::V1::UserSourcesController < ApplicationController
-   skip_before_action :authorize, only: [:index]
-
-
+   # skip_before_action :authorize, only: [:index]
+   
  def index
-    @user = User.find_by(id: 1)
-    user_sources = @user.sources
+   #  @current_user = User.find_by(id: 1)
+    user_sources = @current_user.sources
     render json: user_sources
  end
  

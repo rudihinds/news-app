@@ -10,6 +10,9 @@ import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 import { Link } from 'react-router-dom'
 import SearchForm from './SearchForm'
+import FiberNewIcon from '@material-ui/icons/FiberNew';
+import BookmarkIcon from '@material-ui/icons/Bookmark';
+import FavoriteIcon from '@material-ui/icons/Favorite';
 
 const drawerWidth = 240;
 
@@ -43,7 +46,7 @@ const useStyles = makeStyles(theme => ({
       <List>
         <br/>
         <ListItem component={Link} to="/" button key={"Latest Headlines"}>
-          <ListItemIcon><InboxIcon /></ListItemIcon>
+          <ListItemIcon><FiberNewIcon /></ListItemIcon>
           <ListItemText primary={"Latest Headlines"} />
         </ListItem>
       
@@ -53,12 +56,12 @@ const useStyles = makeStyles(theme => ({
         {loggedIn ?
           <>
           <ListItem component={Link} to="/my-headlines" button key={"My Curated Articles"} >
-            <ListItemIcon><MailIcon /></ListItemIcon>
+            <ListItemIcon><FavoriteIcon /></ListItemIcon>
             <ListItemText primary={"My Curated Articles"} />
           </ListItem>
 
           <ListItem component={Link} to='/user-sources' button key={"Edit Favourite Sources"} >
-            <ListItemIcon><MailIcon /></ListItemIcon>
+            <ListItemIcon><BookmarkIcon /></ListItemIcon>
             <ListItemText primary={"Edit Fav Sources"} />
           </ListItem>
           <Divider />

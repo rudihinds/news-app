@@ -60,6 +60,7 @@ export default class UserSources extends React.Component {
     )})
 
   render() {
+    console.log(this.state.userSources)
     return (
       <div style={{margin: '1vw'}} >
       <div>
